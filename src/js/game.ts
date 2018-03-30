@@ -18,7 +18,7 @@
 
 import {MobileNet} from './mobilenet';
 import {camera, VIDEO_PIXELS} from './camera';
-import {VIEWS, ui} from './ui';
+import {VIEWS, ui, GAME_STRINGS} from './ui';
 import {share} from './share';
 import {getQueryParam} from './utils';
 import {shuffle} from 'lodash';
@@ -819,6 +819,13 @@ export class Game {
         this.nextEmoji();
         this.predict();
         ui.showCountdown();
+      }).catch(error => {
+        if (error.name === 'NotAllowedError') {
+          if (ui.activeView === VIEWS.LOADING) {
+            ui.hideView(VIEWS.LOADING);
+            ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_NO_ACCESS);
+          }
+        }
       });
     } else {
       ui.showCountdown();
