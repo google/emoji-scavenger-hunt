@@ -101,7 +101,7 @@ export const GAME_STRINGS = {
                     'your browser address bar 👆. Your camera is how you’ll ' +
                     'find emojis in the real world. We won’t store any ' +
                     'images from your camera 👍.'
-}
+};
 
 export interface ViewsListTypes {
   [index: string]: HTMLElement;
