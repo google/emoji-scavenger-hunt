@@ -57,6 +57,7 @@ Once the sample images are ready, you can kickstart the training by building and
 running the Docker container.
 
 ```
+$ cd training
 $ docker build -t model-builder .
 $ docker run -v /path/to/data:/data -it model-builder
 ```
@@ -82,6 +83,7 @@ You can boost the training speed by utilizing your GPU.
 If you want to use the GPU for training, install
 [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) and run:
 ```
+$ cd training
 $ nvidia-docker build -f Dockerfile.gpu model-builder
 $ nvidia-docker run -v /path/to/data:/data -it model-builder
 ```
