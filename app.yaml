@@ -193,3 +193,4 @@ skip_files:
 - ^.*\.map$
 - ^\.git.*
 - ^\.tmp/.*
+- ^training/.*
