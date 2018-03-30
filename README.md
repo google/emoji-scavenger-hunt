@@ -61,17 +61,18 @@ $ docker build -t model-builder .
 $ docker run -v /path/to/data:/data -it model-builder
 ```
 
-After the training is completed, you'll see three files in
+After the training is completed, you'll see three files in the
 `data/saved_model_web` directory:
 
 - web_model.pb (the dataflow graph)
 - weights_manifest.json (weight manifest file)
 - group1-shard\*of\* (collection of binary weight files)
 
-They are a SavedModel in a web-friendly format converted by
+They are SavedModel files in a web-friendly format converted by the
 [TensorFlow.js converter](https://github.com/tensorflow/tfjs-converter).
-You can build your own game on your custom image recognition model by replacing
-the correspondings files under `dist/model/` directory with them.
+You can build your own game using your own custom image recognition model by replacing
+the corresponding files under the `dist/model/` directory with the newly generated ones.
+
 You also need to update `src/js/scavenger_classes.ts` in order to update the
 label outputs from the custom model with human-readable strings.
 Update the game logic in `src/js/game.ts` if needed.
