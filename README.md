@@ -33,6 +33,7 @@ This will minify SASS and JS for serving in production.
 
 ## Build your own model
 You can build your own image recognition model by running a Docker container.
+Dockerfiles are in `training` directory.
 
 Prepare images for training by dividing them into directories for each label
 name that you want to train.
