@@ -82,7 +82,8 @@ const SELECTORS = {
   EMOJI_FOUND_LIST: '.view__found-x-items__emojis--js',
   EMOJI_MAX_FOUND_LIST: '.view__found-all-items__emojis--js',
   LANDING_DESKTOP_MSG_EL: '.view__landing__desktop-msg--js',
-  LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js'
+  LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js',
+  LANDING_INFO_MSG_EL: '.view__landing__intro--js'
 };
 
 const CSS_CLASSES = {
@@ -94,6 +95,13 @@ const GAME_OUTCOME = {
   WIN: 'Win',
   END: 'End'
 };
+
+export const GAME_STRINGS = {
+  CAMERA_NO_ACCESS: 'Hey! To play you’ll need to enable camera access in ' +
+                    'your browser address bar 👆. Your camera is how you’ll ' +
+                    'find emojis in the real world. We won’t store any ' +
+                    'images from your camera 👍.'
+}
 
 export interface ViewsListTypes {
   [index: string]: HTMLElement;
@@ -127,6 +135,7 @@ export class Ui {
   emojisMaxFoundListEl: HTMLElement;
   landingDesktopMsgEl: HTMLElement;
   landingPlatformMsgEl: HTMLElement;
+  landingInfoMsgEl: HTMLElement;
   sleuthSpeakingPrefixes: Array<string>;
   activeView: string;
   prevActiveView: string;
@@ -186,6 +195,8 @@ export class Ui {
         document.querySelector(SELECTORS.LANDING_DESKTOP_MSG_EL);
     this.landingPlatformMsgEl =
         document.querySelector(SELECTORS.LANDING_PLATFORM_MSG_EL);
+    this.landingInfoMsgEl =
+        document.querySelector(SELECTORS.LANDING_INFO_MSG_EL);
 
     this.sleuthSpeakingPrefixes = [
       'Is that a ',
@@ -504,6 +515,10 @@ export class Ui {
   setActiveEmoji = (emojiPath: string) => {
     this.statusBarEmojiEl.src = emojiPath;
     this.countdownEmojiEl.src = emojiPath;
+  }
+
+  setLandingInfoMsg = (msg: string) => {
+    this.landingInfoMsgEl.textContent = msg;
   }
 
   hideView = (view: string) => {
