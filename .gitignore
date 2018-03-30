@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+dist/js/
+dist/css/
+cors-settings.json
+*.DS_Store
+*.swp
+*.map

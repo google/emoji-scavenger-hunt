@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- TODO remove once we open to public -->
+    <meta name="robots" content="noindex">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon-152.png">
+    <link rel="shortcut icon" sizes="192x192" href="/img/favicon-192.png">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <meta property="og:title" content="Emoji Scavenger Hunt" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://emojiscavengerhunt.withgoogle.com/" />
+    <meta property="og:image" content="https://emojiscavengerhunt.withgoogle.com/img/share.jpg" />
+    <meta property="og:description" content="Use your phone’s camera to identify emojis in the real world. Can you find all the emojis before time expires?" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@google" />
+    <meta name="twitter:title" content="Emoji Scavenger Hunt" />
+    <meta name="twitter:description" content="Use your phone’s camera to identify emojis in the real world. Can you find all the emojis before time expires?" />
+    <meta name="twitter:image" content="https://emojiscavengerhunt.withgoogle.com/img/share.jpg" />
+
+    <meta itemprop="name" content="Emoji Scavenger Hunt" />
+    <meta itemprop="description" content="Use your phone’s camera to identify emojis in the real world. Can you find all the emojis before time expires?" />
+    <meta itemprop="image" content="/img/share.jpg" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC:700|Roboto:300,400|Changa+One">
+    <link rel="stylesheet" href="css/main.min.css">
+    <title>Emoji Scavenger Hunt</title>
+  </head>
+  <body>
+    <div class="views">
+      <div class="view__loading view__loading--js">
+        <img class="view__loading__icon" src="/img/loading.gif" alt="Loading magnifying glass">
+        <p class="views__heading view__loading__heading">Loading ...</p>
+      </div>
+
+      <div class="view__quit view__quit--js">
+        <p class="views__heading view__quit__heading">Are you sure you want to quit?</p>
+        <button class="btn cancel-btn quit-cancel-btn--js">Cancel</button>
+        <button class="btn quit-btn quit-btn--js">Quit</button>
+      </div>
+
+      <div class="view__about view__about--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__close-btn view__info-bar__close-btn--js">
+            <img src="/img/emojis/ui/crossmark.svg" alt="Close icon">
+          </button>
+        </div>
+        <div class="view__about__body">
+          <div class="view__about__video-container">
+            <iframe src="https://www.youtube.com/embed/jr3q_9pJBr8?rel=0&amp;showinfo=0&amp;controls=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <p class="views__heading  view__about__heading">About this game 🤳</p>
+          <p>
+            Emoji Scavenger Hunt is a browser-based game built with machine learning that uses your phone’s
+            camera and a neural network to try and guess what it’s seeing.
+            This is just one example of how machine learning can be used in fun ways.
+          </p>
+          <p>
+            Powered by <a href="https://js.tensorflow.org" target="_blank">Tensorflow.js</a>, the game is built to run efficiently on your phone’s
+            web browser without needing to access backend servers. No images from your camera are collected or stored.
+          </p>
+          <p>
+            Watch the video above to see how the project was created, browse the <a href="https://github.com/google/emoji-scavenger-hunt/" target="_blank">open-source code on GitHub</a>
+            to learn more about how it works, or explore more <a href="https://experiments.withgoogle.com/ai" target="_blank">A.I. Experiments</a> like this.
+          </p>
+          <p>This experiment was made by friends from the Brand Studio and PAIR teams at Google.</p>
+
+          <p class="views__heading  view__about__heading">Contact ✉️</p>
+          <p><a href="mailto:emojiscavengerhunt@google.com">Email us</a></p>
+
+          <div class="view__about__privacy">
+            <a class="view__about__privacy__ai-badge" href="https://experiments.withgoogle.com/ai" target="_blank">
+              <img src="img/badge.svg" alt="Made with some friends at Google">
+            </a>
+            <a class="view__about__privacy__privacy-link" href="https://www.google.com/policies/" target="_blank">Privacy & Terms</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="view__landing view__landing--js">
+        <div class="view__landing__social-icons">
+          <a class="social-share-link view__landing__social__tritter--js" href="https://twitter.com/intent/tweet?text=How%20many%20emojis%20can%20you%20find%20in%20the%20real%20world%20using%20your%20%F0%9F%93%B1%3F%20Play%20Emoji%20Scavenger%20Hunt%2C%20powered%20by%20machine%20learning%3A&hashtags=AIExperiments,tensorflowjs&url=https%3A%2F%2Fg.co%2Femojiscavengerhunt">
+            <img class="social-share-icon" src="img/twitter.svg" alt="Twitter icon">
+          </a>
+          <a class="social-share-link view__landing__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php?u=https://emojiscavengerhunt.withgoogle.com">
+            <img class="social-share-icon" src="img/facebook.svg" alt="Facebook icon">
+          </a>
+        </div>
+        <div class="view__info-bar">
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/questionmark.svg" alt="About icon">
+          </button>
+        </div>
+        <h1>
+          <img class="view__landing__logo" src="img/logo.svg" alt="Emoji Scavenger Hunt">
+        </h1>
+        <p class="view__landing__intro">Locate the emoji we show you in the real world with your phone’s camera.
+          A neural network will try to guess what it’s seeing.<br />Make sure your sound is on.</p>
+        <button class="btn play-btn landing__play-btn--js">Let's Play</button>
+        <p class="view__landing__desktop-msg view__landing__desktop-msg--js">Emoji Scavenger Hunt is best experienced on phones.</p>
+        <div class="view__landing__platform-msg view__landing__platform-msg--js">
+          <div class="view__landing__video-container">
+            <iframe src="https://www.youtube.com/embed/jr3q_9pJBr8?rel=0&amp;showinfo=0&amp;controls=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <p>It looks like your browser or device doesn’t support this experiment. It’s designed to work best on mobile (iOS/Safari or Android/Chrome).</p>
+        </div>
+        <a href="https://experiments.withgoogle.com/ai" target="_blank">
+          <img class="view__landing__ai-badge" src="img/badge.svg" alt="Made with some friends at Google">
+        </a>
+        <a class="view__landing__privacy-link" href="https://www.google.com/policies/" target="_blank">Privacy & Terms</a>
+      </div>
+
+      <div class="view__countdown view__countdown--js">
+        <div class="view__countdown__3 view__countdown__3--js">
+          <span class="view__countdown__count">3</span>
+          <p class="view__countdown__find-msg">Find the emoji and point your camera at it before time expires.</p>
+        </div>
+        <div class="view__countdown__2 view__countdown__2--js">
+          <span class="view__countdown__count">2</span>
+          <p class="view__countdown__find-msg">Find the emoji and point your camera at it before time expires.</p>
+        </div>
+        <div class="view__countdown__1 view__countdown__1--js">
+          <span class="view__countdown__count">1</span>
+          <p class="view__countdown__find-msg">Find the emoji and point your camera at it before time expires.</p>
+        </div>
+        <div class="view__countdown__0 view__countdown__0--js">
+          <p class="view__countdown__0__find">Find <img src="/img/emojis/ui/sleuth.svg" class="view__countdown__0__emoji view__countdown__0__emoji--js" /></p>
+          <p class="view__countdown__0__find-time">in under <span class="view__countdown__0__find-time-val--js"></span></p>
+          <p class="view__countdown__find-msg">Find the emoji and point your camera at it before time expires.</p>
+        </div>
+      </div>
+
+      <div class="view__sleuth view__sleuth--js">
+        <img class="view__sleuth__emoji view__sleuth__emoji--js" src="/img/emojis/ui/sleuth.svg" alt="Sleuth emoji" />
+        <p class="view__sleuth__speaking view__sleuth__speaking--js"></p>
+      </div>
+
+      <div class="view__found-x-items view__found-x-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/questionmark.svg" alt="About icon">
+          </button>
+        </div>
+        <p class="views__heading  view__found-x-items__heading">You found <span class="view__found-x-items__nr-found--js"></span></p>
+        <div class="view__found-x-items__emojis view__found-x-items__emojis--js"></div>
+        <div class="view__found-x-items__social">
+          <p>Share your score</p>
+          <div class="view__found-x-items__social-icons">
+            <a class="social-share-link view__found-x-items__social__tritter--js" href="https://twitter.com/intent/tweet">
+              <img class="social-share-icon" src="img/twitter.svg" alt="Twitter icon">
+            </a>
+            <a class="social-share-link view__found-x-items__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php">
+              <img class="social-share-icon" src="img/facebook.svg" alt="Facebook icon">
+            </a>
+          </div>
+        </div>
+        <button class="btn play-again-btn--js">Play Again</button>
+      </div>
+
+      <div class="view__found-all-items view__found-all-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/questionmark.svg" alt="About icon">
+          </button>
+        </div>
+        <p class="views__heading  view__found-all-items__heading">You found <span class="view__found-all-items__nr-found--js"></span></p>
+        <p>Congratulations! You are a master emoji identifier.</p>
+        <div class="view__found-all-items__emojis view__found-all-items__emojis--js"></div>
+        <div class="view__found-all-items__social">
+          <p>Share your score</p>
+          <div class="view__found-all-items__social-icons">
+            <a class="social-share-link view__found-all-items__social__tritter--js" href="https://twitter.com/intent/tweet">
+              <img class="social-share-icon" src="img/twitter.svg" alt="Twitter icon">
+            </a>
+            <a class="social-share-link view__found-all-items__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php">
+              <img class="social-share-icon" src="img/facebook.svg" alt="Facebook icon">
+            </a>
+          </div>
+        </div>
+        <button class="btn play-again-btn--js">Play Again</button>
+      </div>
+
+      <div class="view__found-no-items view__found-no-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/questionmark.svg" alt="About icon">
+          </button>
+        </div>
+        <img class="view__found-no-items__emoji" src="/img/emojis/ui/thumbsdown.svg"/>
+        <p>You didn’t find any items.</p>
+        <button class="btn play-again-btn--js">Play Again</button>
+      </div>
+
+      <div class="view__status-bar view__status-bar--js">
+        <div class="view__status-bar__find">Find
+          <img src="/img/emojis/ui/sleuth.svg" class="view__status-bar__find__emoji view__status-bar__find__emoji--js" />
+        </div>
+        <div class="view__status-bar__info">
+          <img class="view__status-bar__info__emoji" src="/img/emojis/ui/trophy.svg" />
+          <span class="view__status-bar__info__score view__status-bar__info__score--js">0</span>
+          <img class="view__status-bar__info__emoji" src="/img/emojis/ui/stopwatch.svg" />
+          <span class="view__status-bar__info__timer view__status-bar__info__timer--js"></span>
+        </div>
+      </div>
+
+      <div class="view__found-item view__found-item--js">
+        <img class="view__found-item__emoji" src="/img/emojis/ui/thumbsup.svg" />
+        <p>You found the item. Timer increased.</p>
+        <button class="btn next-emoji-btn--js">Next Emoji</button>
+      </div>
+
+      <div class="view__camera view__camera--js">
+        <button class="view__camera__quit-btn view__camera__quit-btn--js">Quit</button>
+        <div class="view__camera__prediction-results view__camera__prediction-results--js"></div>
+        <div class="camera__capture-wrapper camera__capture-wrapper--js">
+          <div class="camera__capture-flash camera__capture-flash--js"></div>
+          <video class="camera__element camera__element--js" autoplay playsinline></video>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/bundle.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115900319-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-115900319-1');
+    </script>
+  </body>
+</html>
+

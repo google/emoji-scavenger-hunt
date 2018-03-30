@@ -1,0 +1,37 @@
+{
+  "name": "emoji-scavenger-hunt",
+  "version": "0.1.0",
+  "description": "Emoji Scavenger Hunt",
+  "private": true,
+  "scripts": {
+    "prep": "yarn && yarn prep:files && yarn build",
+    "prep:files": "mkdirp dist && mkdirp dist/js && touch dist/js/bundle.js",
+    "sass-watch": "node-sass -w src/sass/main.scss dist/css/main.min.css",
+    "sass-build": "node-sass src/sass/main.scss dist/css/main.min.css --output-style compressed",
+    "js-watch": "watchify src/js/index.ts -p [tsify] -o dist/js/bundle.js -v --debug",
+    "js-build": "browserify src/js/index.ts -p [tsify] -o dist/js/bundle.js",
+    "js-compress": "uglifyjs dist/js/bundle.js -c -m -o dist/js/bundle.js",
+    "dev:server": "dev_appserver.py --port=3000 app.yaml",
+    "build": "concurrently \"yarn sass-build\" \"yarn js-build && yarn js-compress\"",
+    "dev": "concurrently \"yarn sass-watch\" \"yarn js-watch\" \"yarn dev:server\"",
+    "lint": "tslint -p . -t verbose"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.104",
+    "browserify": "^16.0.0",
+    "browserify-shim": "^3.8.14",
+    "concurrently": "^3.5.1",
+    "lodash": "^4.17.5",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.7.2",
+    "tsify": "^3.0.4",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1",
+    "uglify-js": "^3.3.10",
+    "watchify": "^3.10.0"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs-converter": "0.1.0",
+    "@tensorflow/tfjs-core": "0.6.0"
+  }
+}
