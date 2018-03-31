@@ -21,6 +21,7 @@ import {camera, VIDEO_PIXELS} from './camera';
 import {VIEWS, ui, GAME_STRINGS} from './ui';
 import {share} from './share';
 import {getQueryParam} from './utils';
+import {isIOS} from './utils';
 import {shuffle} from 'lodash';
 import * as tfc from '@tensorflow/tfjs-core';
 
@@ -820,11 +821,23 @@ export class Game {
         this.predict();
         ui.showCountdown();
       }).catch(error => {
-        if (error.name === 'NotAllowedError') {
-          if (ui.activeView === VIEWS.LOADING) {
-            ui.hideView(VIEWS.LOADING);
-            ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_NO_ACCESS);
-          }
+        ui.startGameBtn.style.display = 'none';
+        ui.hideView(VIEWS.LOADING);
+
+        /* iOS does not provide access to mediaDevices.getUserMedia via
+           UiWebviews in iOS 11.2 - This causes a TypeError to be returned
+           which we handle to display a relevant message to encourage the user
+           to open the game in the standard Safari app */
+        if (error.name === 'TypeError' && isIOS()) {
+          ui.setLandingInfoMsg(GAME_STRINGS.SAFARI_WEBVIEW);
+        } else if (error.name === 'NotAllowedError') {
+          /* Users that explicitly deny camera access get a message that
+             encourages them to enable camera access */
+          ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_NO_ACCESS);
+        } else {
+          /* General error message for issues getting camera access via
+             mediaDevices.getUserMedia */
+          ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_GENERAL_ERROR);
         }
       });
     } else {

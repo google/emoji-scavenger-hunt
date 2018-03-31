@@ -98,9 +98,15 @@ const GAME_OUTCOME = {
 
 export const GAME_STRINGS = {
   CAMERA_NO_ACCESS: 'Hey! To play you’ll need to enable camera access in ' +
-                    'your browser address bar 👆. Your camera is how you’ll ' +
-                    'find emojis in the real world. We won’t store any ' +
-                    'images from your camera 👍.'
+      'your browser address bar 👆. Your camera is how you’ll ' +
+      'find emojis in the real world. We won’t store any ' +
+      'images from your camera 👍.',
+  SAFARI_WEBVIEW: '🚨 To play this game, please open it directly in Safari.' +
+      ' If needed, copy/paste or type the URL into the address bar. ' +
+      'https://g.co/emojiscavengerhunt 🚨',
+  CAMERA_GENERAL_ERROR: 'It looks like your browser or device doesn’t ' +
+      'support this experiment. It’s designed to work best' +
+      'on mobile (iOS/Safari or Android/Chrome). 😭'
 };
 
 export interface ViewsListTypes {
