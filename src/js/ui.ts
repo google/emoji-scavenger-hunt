@@ -74,6 +74,7 @@ const SELECTORS = {
   COUNTDOWN_EMOJI_EL: '.view__countdown__0__emoji--js',
   CAMERA_FLASH_EL: '.camera__capture-flash--js',
   CAMERA_CAPTURE_EL: '.camera__capture-wrapper--js',
+  CAMERA_DESKTOP_MSG_EL: '.view__camera__desktop-msg',
   TIMER_EL: '.view__status-bar__info__timer--js',
   TIMER_COUNTDOWN_EL: '.view__countdown__0__find-time-val--js',
   SCORE_EL: '.view__status-bar__info__score--js',
@@ -132,6 +133,7 @@ export class Ui {
   countdownEmojiEl: HTMLImageElement;
   cameraFlashEl: HTMLElement;
   cameraCaptureEl: HTMLElement;
+  cameraDesktopMsgEl: HTMLElement;
   timerEl: HTMLElement;
   timerCountdownEl: HTMLElement;
   scoreEl: HTMLElement;
@@ -186,6 +188,8 @@ export class Ui {
         document.querySelector(SELECTORS.COUNTDOWN_EMOJI_EL);
     this.cameraFlashEl = document.querySelector(SELECTORS.CAMERA_FLASH_EL);
     this.cameraCaptureEl = document.querySelector(SELECTORS.CAMERA_CAPTURE_EL);
+    this.cameraDesktopMsgEl =
+        document.querySelector(SELECTORS.CAMERA_DESKTOP_MSG_EL);
     this.timerEl = document.querySelector(SELECTORS.TIMER_EL);
     this.timerCountdownEl =
         document.querySelector(SELECTORS.TIMER_COUNTDOWN_EL);
@@ -240,6 +244,7 @@ export class Ui {
       }
     } else {
       this.landingDesktopMsgEl.style.display = 'block';
+      this.cameraDesktopMsgEl.style.display = 'block';
     }
   }
 
@@ -499,6 +504,7 @@ export class Ui {
       this.cameraFlashEl.removeEventListener('animationend', animationEnded);
     };
     this.cameraQuitBtn.style.display = 'none';
+    this.cameraDesktopMsgEl.style.display = 'none';
     this.cameraFlashEl.addEventListener('animationend', animationEnded);
     addClass(this.cameraFlashEl,'flash');
   }
@@ -508,6 +514,7 @@ export class Ui {
       camera.unPauseCamera();
     }
     this.cameraQuitBtn.style.display = 'block';
+    this.cameraDesktopMsgEl.style.display = 'block';
     removeClass(this.cameraFlashEl,'flash');
     removeClass(this.cameraFlashEl,'freeze');
     removeClass(this.cameraCaptureEl, 'capture');
