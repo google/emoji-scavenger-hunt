@@ -504,7 +504,6 @@ export class Ui {
       this.cameraFlashEl.removeEventListener('animationend', animationEnded);
     };
     this.cameraQuitBtn.style.display = 'none';
-    this.cameraDesktopMsgEl.style.display = 'none';
     this.cameraFlashEl.addEventListener('animationend', animationEnded);
     addClass(this.cameraFlashEl,'flash');
   }
@@ -514,7 +513,6 @@ export class Ui {
       camera.unPauseCamera();
     }
     this.cameraQuitBtn.style.display = 'block';
-    this.cameraDesktopMsgEl.style.display = 'block';
     removeClass(this.cameraFlashEl,'flash');
     removeClass(this.cameraFlashEl,'freeze');
     removeClass(this.cameraCaptureEl, 'capture');
