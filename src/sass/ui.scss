@@ -381,7 +381,7 @@ body {
 
   &__platform-msg {
     display: none;
-    max-width: 400px;
+    max-width: 600px;
   }
 
   &__video-container {
@@ -807,5 +807,16 @@ body {
     z-index: 99;
     border-radius: 4px;
     padding: 10px;
+  }
+
+  &__desktop-msg {
+    display: none;
+    color: $c-white;
+    font-size: 14px;
+    font-weight: 400;
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    z-index: $zindex-3--camera-quit-btn-layer;
   }
 }
