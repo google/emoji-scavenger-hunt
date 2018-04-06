@@ -572,29 +572,63 @@ export class Ui {
   /**
    * Updates the win and end screens UI elements with the list of emojis icons
    * that the user found.
+   * @param endGamePhotos An array of images matching the emoji found.
    * @param screen Which screen this was called from, either 'Win' or 'End'.
    */
-  setEmojisFoundList(screen: string) {
+  setEmojisFoundList(
+      endGamePhotos: Array<HTMLImageElement>, screen: string) {
 
     let emojiFoundString = '';
     let spacer = '';
+
+    let photoContainer = document.createElement('div');
+    addClass(photoContainer, 'view__found-x-items__emojis__grid');
+    addClass(photoContainer, 'view__found-x-items__emojis__grid--js');
+
+    if (endGamePhotos[0].width >= endGamePhotos[0].height) {
+      addClass(photoContainer, 'landscape');
+    } else {
+      addClass(photoContainer, 'portrait');
+    }
+
     for (let i = 0; i < game.emojisFound.length; i++) {
       let item = game.emojisFound[i];
       spacer = (i === game.emojisFound.length - 1) ? '' : ' ';
       emojiFoundString = emojiFoundString + item.emoji + spacer;
+
+      let figure = document.createElement('figure');
+      addClass(figure, 'view__found-x-items__emojis__grid__item');
+      addClass(figure, 'view__found-x-items__emojis__grid__item--js');
+      figure.appendChild(endGamePhotos[i]);
+
+      let caption = document.createElement('figcaption');
+      figure.appendChild(caption);
+
+      let emojiImg = document.createElement('img');
+      emojiImg.src = item.path;
+      emojiImg.alt = item.name;
+      caption.appendChild(emojiImg);
+
+      photoContainer.appendChild(figure);
+    });
+
+    while (this.emojisFoundListEl.firstChild) {
+      this.emojisFoundListEl.removeChild(this.emojisFoundListEl.firstChild);
     }
+
+    while (this.emojisMaxFoundListEl.firstChild) {
+      this.emojisMaxFoundListEl.removeChild(this.emojisMaxFoundListEl.firstChild);
+    }
+
+    addClass(photoContainer, 'photos-' + game.emojisFound.length);
+
+    this.emojisFoundListEl.appendChild(photoContainer.cloneNode(true));
+    this.emojisMaxFoundListEl.appendChild(photoContainer);
 
     (<any>window).gtag('event', `${screen}`, {
       'event_category': 'Game',
       'event_label': `${emojiFoundString}`
     });
-
-    const emojiListMarkup =
-        game.emojisFound.map(emojiItem =>
-            `<div class="emoji-item"><img src="${emojiItem.path}"` +
-            `alt="${emojiItem.name} icon"/></div>`).join('');
-    this.emojisFoundListEl.innerHTML = emojiListMarkup;
-    this.emojisMaxFoundListEl.innerHTML = emojiListMarkup;
 
     // Also update the twitter sharing links with the list of emojis
     share.setTwitterShareLinks(emojiFoundString);
@@ -725,10 +759,10 @@ export class Ui {
    * display like other views. Before sliding in this view we update relevant
    * UI elements related to it.
    */
-  showXItemsFoundView() {
+  showXItemsFoundView(endGamePhotos: Array<HTMLImageElement>) {
     game.pauseGame();
     this.setNrEmojisFound();
-    this.setEmojisFoundList(GAME_OUTCOME.END);
+    this.setEmojisFoundList(endGamePhotos, GAME_OUTCOME.END);
     game.playAudio(AUDIO.END);
 
     let msg = this.sleuthSpeakingFoundXMsg;
@@ -751,11 +785,11 @@ export class Ui {
    * and doesn't simply display like other views. Before sliding in this view
    * we update relevant UI elements related to it.
    */
-  showAllItemsFoundView() {
+  showAllItemsFoundView(endGamePhotos: Array<HTMLImageElement>) {
     game.pauseGame();
     game.playAudio(AUDIO.WIN);
     this.setNrEmojisFound();
-    this.setEmojisFoundList(GAME_OUTCOME.WIN);
+    this.setEmojisFoundList(endGamePhotos, GAME_OUTCOME.WIN);
 
     let msg = this.sleuthSpeakingFoundAllMsg;
     this.setSleuthSpeakerText(msg);

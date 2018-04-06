@@ -186,7 +186,6 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  overflow: hidden;
   right: 0;
 
   &__heading {
@@ -550,7 +549,7 @@ body {
 }
 
 .view__sleuth {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   display: flex;
   z-index: $zindex-8--sleuth-layer;
@@ -639,6 +638,15 @@ body {
 .view__found-x-items,
 .view__found-all-items {
   color: $c-white;
+  height: unset;
+  min-height: 100%;
+  padding: 50px 0 100px;
+
+  &__disclaimer {
+    font-size: 80%;
+    font-style: italic;
+    opacity: .65;
+  }
 
   @include bp(ls) {
     justify-content: flex-start;
@@ -677,12 +685,55 @@ body {
       }
     }
 
-    @include bp(s) {
-      font-size: 80px;
+    &__grid {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 960px;
+      padding: 5px;
+      width: 100%;
+
+      figure {
+        flex: 0 0 auto;
+        margin: 15px 0;
+        padding: 0 15px;
+        position: relative;
+        width: 33.333%;
+
+        img {
+          display: block;
+          height: 100%;
+          object-fit: contain;
+          width: 100%;
+        }
+
+        figcaption {
+          bottom: 0;
+          left: 50%;
+          position: absolute;
+          transform: translate(-50%, 20%);
+        }
+      }
+
+      &.landscape {
+        figcaption {
+          width: 20%;
+        }
+      }
+
+      &.portrait {
+        figcaption {
+          height: 25%;
+        }
+      }
+
+      &.photos-1,
+      &.photos-2 {
+        justify-content: center;
+      }
     }
 
-    @include bp(ls) {
-      font-size: 50px;
+    @include bp(m) {
+      padding: 0 15px;
     }
   }
 

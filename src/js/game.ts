@@ -635,6 +635,7 @@ export class Game {
   audioSources: AudioSources;
   sleuth: Sleuths;
   sleuthVoice: SleuthVoices;
+  endGamePhotos: Array<any>;
   demoMode = false;
   debugMode = false;
   gameIsPaused = false;
@@ -648,6 +649,7 @@ export class Game {
     this.score = 0;
     this.timer = GAME_START_TIME;
     this.emojisFound = [];
+    this.endGamePhotos = [];
     this.topItemGuess = null;
     this.sleuth = shuffle(SLEUTHS)[0];
     this.sleuthVoice = {
@@ -1079,7 +1081,7 @@ export class Game {
         ui.showNoItemsFoundView();
       }
       else {
-        ui.showXItemsFoundView();
+        ui.showXItemsFoundView(this.endGamePhotos);
       }
     } else if (this.timer <= 5) {
       if (this.timer === 5) {
@@ -1204,6 +1206,7 @@ export class Game {
     this.firstSpeak = true;
     this.score++;
     this.emojisFound.push(this.currentEmoji);
+    this.endGamePhotos.push(camera.snapshot());
     this.playAudio(AUDIO.FOUND_IT);
 
     ui.cameraFlash();
@@ -1216,7 +1219,7 @@ export class Game {
     });
 
     if (GAME_MAX_ITEMS === this.score) {
-      ui.showAllItemsFoundView();
+      ui.showAllItemsFoundView(this.endGamePhotos);
     } else {
       setTimeout(() => {
         ui.showItemFoundView();

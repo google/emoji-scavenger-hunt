@@ -33,12 +33,15 @@ export const VIDEO_PIXELS = 224;
 export class Camera {
   /** The HTMLVideoElement used to show content from the camera */
   videoElement: HTMLVideoElement;
+  /** A canvas element to save snapshots to */
+  snapShotCanvas: HTMLCanvasElement;
   /** The native aspect ratio of the video element once initialized */
   aspectRatio: number;
 
   constructor() {
     this.videoElement =
       <HTMLVideoElement>document.querySelector(SELECTORS.CAMERA_ELEMENT);
+    this.snapShotCanvas = document.createElement('canvas');
   }
 
   /**
@@ -108,6 +111,23 @@ export class Camera {
    */
   setFrontFacingCamera() {
     addClass(this.videoElement, CSS_CLASSES.CAMERA_FRONT_FACING);
+  }
+
+  /**
+   * Takes a snapshot of the camera feed and converts it
+   * to an image via a canvas element.
+   * @return <HTMLImageElement> The snapshot as an image node.
+   */
+  snapshot() {
+    this.snapShotCanvas.height = this.videoElement.height;
+    this.snapShotCanvas.width = this.videoElement.width;
+    var ctx = this.snapShotCanvas.getContext('2d');
+    ctx.drawImage(this.videoElement, 0, 0, this.snapShotCanvas.width,
+        this.snapShotCanvas.height);
+    var img = new Image();
+    img.src = this.snapShotCanvas.toDataURL('image/png').replace('image/png',
+        'image/octet-stream');
+    return img;
   }
 }
 
