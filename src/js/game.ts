@@ -23,6 +23,7 @@ import {share} from './share';
 import {getQueryParam, isIOS} from './utils';
 import {shuffle} from 'lodash';
 import * as tfc from '@tensorflow/tfjs-core';
+import {SPEECH_SPRITE_TIMESTAMPS} from './speech_sprite_timestamps';
 
 export const GAME_START_TIME = 20;
 export const GAME_EXTEND_TIME = 10;
@@ -585,7 +586,8 @@ export const AUDIO = {
   FOUND_IT: 'foundit',
   WIN: 'win',
   END: 'endofgame',
-  TIMER_INCREASE: 'timerincrease'
+  TIMER_INCREASE: 'timerincrease',
+  IOS_SPEECH_SPRITE: 'iosspeechsprite'
 };
 
 /** Manages game state and various tasks related to game events. */
@@ -684,6 +686,11 @@ export class Game {
       [AUDIO.TIMER_INCREASE]: new Audio('/audio/timer-increase.mp4')
     };
 
+    if (isIOS()) {
+      this.audioSources[AUDIO.IOS_SPEECH_SPRITE] =
+          new Audio('/audio/ios-speech-sprite.m4a');
+    }
+
     if (getQueryParam('demo') === 'true') {
       this.setupDemoMode();
       this.demoMode = true;
@@ -772,13 +779,26 @@ export class Game {
    * @param audio The audio file to play.
    * @param loop Indicates if the audio file should loop.
    */
-  playAudio(audio: string, loop = false) {
+  playAudio(audio: string, loop = false, startTime = 0,
+      endTime:number = undefined) {
+    let audioElement = this.audioSources[audio];
     if (loop) {
-      this.audioSources[audio].loop = true;
+      audioElement.loop = true;
     }
     if (!this.audioIsPlaying(audio)) {
-      this.audioSources[audio].currentTime = 0;
-      let playPromise = this.audioSources[audio].play();
+      audioElement.currentTime = startTime;
+      let playPromise = audioElement.play();
+
+      if (endTime !== undefined) {
+        const timeUpdate = (e: Event) => {
+          if (audioElement.currentTime >= endTime) {
+            audioElement.pause();
+            audioElement.removeEventListener('timeupdate', timeUpdate);
+          }
+        };
+
+        audioElement.addEventListener('timeupdate', timeUpdate);
+      }
 
       if (playPromise !== undefined) {
         playPromise.catch(error => {
@@ -804,6 +824,19 @@ export class Game {
    */
   audioIsPlaying(audio: string) {
     return !this.audioSources[audio].paused;
+  }
+
+  /**
+   * Plays a snippet of an audio sprite based on timestamps in
+   * SPEECH_SPRITE_TIMESTAMPS.
+   * @param key The key to look up in the sprite timestamps.
+   */
+  spriteSpeak(key: string) {
+    if (SPEECH_SPRITE_TIMESTAMPS.hasOwnProperty(key)) {
+      this.playAudio(AUDIO.IOS_SPEECH_SPRITE,
+          false, SPEECH_SPRITE_TIMESTAMPS[key][0],
+          SPEECH_SPRITE_TIMESTAMPS[key][1] + .25);
+    }
   }
 
   /**
@@ -1184,7 +1217,11 @@ export class Game {
       setTimeout(() => {
         ui.showItemFoundView();
         ui.setSleuthSpeakerText(ui.sleuthSpeakingFoundItMsg, true);
-        this.speak(ui.sleuthSpeakingFoundItMsgEmojiName);
+        if (isIOS()) {
+          this.spriteSpeak(this.currentEmoji.name);
+        } else {
+          this.speak(ui.sleuthSpeakingFoundItMsgEmojiName);
+        }
       }, 1000);
     }
   }

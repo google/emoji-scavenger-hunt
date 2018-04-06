@@ -21,7 +21,7 @@ import {game, GAME_START_TIME, GAME_EXTEND_TIME,
 import {addClass, removeClass} from './classes';
 import {camera} from './camera';
 import {share} from './share';
-import {isMobile, isChromeIOS, getQueryParam} from './utils';
+import {isMobile, isIOS, isChromeIOS, getQueryParam} from './utils';
 
 export const VIEWS = {
   LOADING: 'loading',
@@ -83,7 +83,8 @@ const SELECTORS = {
   EMOJI_MAX_FOUND_LIST: '.view__found-all-items__emojis--js',
   LANDING_DESKTOP_MSG_EL: '.view__landing__desktop-msg--js',
   LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js',
-  LANDING_INFO_MSG_EL: '.view__landing__intro--js'
+  LANDING_INFO_MSG_EL: '.view__landing__intro--js',
+  AGE_DISCLAIMER_MSG_EL: 'view__landing__age-msg--js'
 };
 
 const CSS_CLASSES = {
@@ -143,6 +144,7 @@ export class Ui {
   landingDesktopMsgEl: HTMLElement;
   landingPlatformMsgEl: HTMLElement;
   landingInfoMsgEl: HTMLElement;
+  ageDisclaimerMsgEl: HTMLElement;
   sleuthSpeakingPrefixes: Array<string>;
   activeView: string;
   prevActiveView: string;
@@ -206,6 +208,8 @@ export class Ui {
         document.querySelector(SELECTORS.LANDING_PLATFORM_MSG_EL);
     this.landingInfoMsgEl =
         document.querySelector(SELECTORS.LANDING_INFO_MSG_EL);
+    this.ageDisclaimerMsgEl =
+        document.querySelector(SELECTORS.AGE_DISCLAIMER_MSG_EL);
 
     this.sleuthSpeakingPrefixes = [
       'Is that a ',
@@ -248,6 +252,7 @@ export class Ui {
         this.startGameBtn.disabled = true;
         addClass(this.viewsList[VIEWS.LANDING], 'not-supported');
         this.landingPlatformMsgEl.style.display = 'block';
+        this.ageDisclaimerMsgEl.style.display = 'none';
       }
     } else {
       this.landingDesktopMsgEl.style.display = 'block';
@@ -682,7 +687,11 @@ export class Ui {
 
     let msg = this.sleuthSpeakingFoundNoMsg;
     this.setSleuthSpeakerText(msg);
-    game.speak(msg);
+    if (isIOS()) {
+      game.spriteSpeak('timeup');
+    } else {
+      game.speak(msg);
+    }
     this.setActiveView(VIEWS.FOUND_NO_ITEMS);
     this.slideView(VIEWS.FOUND_NO_ITEMS, CSS_CLASSES.SLIDE_DOWN,
         false).then(values => {
@@ -704,7 +713,11 @@ export class Ui {
 
     let msg = this.sleuthSpeakingFoundXMsg;
     this.setSleuthSpeakerText(msg);
-    game.speak(msg);
+    if (isIOS()) {
+      game.spriteSpeak('found ' + game.emojisFound.length);
+    } else {
+      game.speak(msg);
+    }
     this.setActiveView(VIEWS.FOUND_X_ITEMS);
     this.slideView(VIEWS.FOUND_X_ITEMS, CSS_CLASSES.SLIDE_DOWN,
         false).then(values => {
@@ -726,7 +739,11 @@ export class Ui {
 
     let msg = this.sleuthSpeakingFoundAllMsg;
     this.setSleuthSpeakerText(msg);
-    game.speak(msg);
+    if (isIOS()) {
+      game.spriteSpeak('found ' + game.emojisFound.length);
+    } else {
+      game.speak(msg);
+    }
     this.setActiveView(VIEWS.FOUND_ALL_ITEMS);
     this.slideView(VIEWS.FOUND_ALL_ITEMS, CSS_CLASSES.SLIDE_DOWN, false);
   }
