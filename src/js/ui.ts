@@ -16,13 +16,12 @@
  * =============================================================================
  */
 
-import {game, EmojiItem, GAME_START_TIME, GAME_EXTEND_TIME,
+import {game, GAME_START_TIME, GAME_EXTEND_TIME,
         AUDIO} from './game';
-import {getQueryParam} from './utils';
 import {addClass, removeClass} from './classes';
 import {camera} from './camera';
 import {share} from './share';
-import {isMobile, isChromeIOS} from './utils';
+import {isMobile, isChromeIOS, getQueryParam} from './utils';
 
 export const VIEWS = {
   LOADING: 'loading',
@@ -225,7 +224,11 @@ export class Ui {
     this.prevActiveView = this.activeView;
   }
 
-  init = () => {
+  /**
+   * Initialize the UI by checking the platform the game is running on and
+   * registering events.
+   */
+  init() {
     this.setPlatformMessages();
     this.setCameraFacing();
     this.addEvents();
@@ -235,7 +238,11 @@ export class Ui {
     }
   }
 
-  setPlatformMessages = () => {
+  /**
+   * Sets various messages related to platform support and info relating to
+   * the game being best experienced on mobile.
+   */
+  setPlatformMessages() {
     if (isMobile()) {
       if (isChromeIOS()) {
         this.startGameBtn.disabled = true;
@@ -248,22 +255,27 @@ export class Ui {
     }
   }
 
-  setCameraFacing = () => {
+  /**
+   * If the game is played on desktop we flip the camera assuming the front
+   * facing camera is used on desktop.
+   */
+  setCameraFacing() {
     if (!isMobile()) {
       camera.setFrontFacingCamera();
     }
   }
 
-  addEvents = () => {
-
-    let uiClass = this;
+  /**
+   * Registers various UI events for buttons.
+   */
+  addEvents() {
 
     window.addEventListener('popstate', (event: Event) => {
-      uiClass.hideView(VIEWS.ABOUT);
+      this.hideView(VIEWS.ABOUT);
     });
 
     if (this.startGameBtn) {
-      this.startGameBtn.addEventListener('click', function() {
+      this.startGameBtn.addEventListener('click', () => {
         if (game.firstRun) {
           game.setupAudioSources();
         }
@@ -277,8 +289,9 @@ export class Ui {
     }
 
     if(this.replayGameBtns.length > 0) {
-      Array.from(this.replayGameBtns).forEach(item => {
-        item.addEventListener('click', function() {
+
+      for (const item of Array.from(this.replayGameBtns)) {
+        item.addEventListener('click', () => {
           game.restartGame();
 
           (<any>window).gtag('event', 'Click', {
@@ -286,7 +299,7 @@ export class Ui {
             'event_label': 'Play Again'
           });
         });
-      });
+      }
     }
 
     if (this.nextEmojiBtn) {
@@ -294,9 +307,9 @@ export class Ui {
     }
 
     if (this.cameraQuitBtn) {
-      this.cameraQuitBtn.addEventListener('click', function() {
+      this.cameraQuitBtn.addEventListener('click', () => {
         game.pauseGame();
-        uiClass.showView(VIEWS.QUIT);
+        this.showView(VIEWS.QUIT);
 
         (<any>window).gtag('event', 'Click', {
           'event_category': 'Link',
@@ -306,17 +319,17 @@ export class Ui {
     }
 
     if (this.quitCancelBtn) {
-      this.quitCancelBtn.addEventListener('click', function() {
-        uiClass.hideView(VIEWS.QUIT);
+      this.quitCancelBtn.addEventListener('click', () => {
+        this.hideView(VIEWS.QUIT);
         game.resumeGame();
       });
     }
 
     if (this.quitBtn) {
-      this.quitBtn.addEventListener('click', function() {
+      this.quitBtn.addEventListener('click', () => {
         game.resetGame();
-        uiClass.hideView(VIEWS.QUIT);
-        uiClass.showView(VIEWS.LANDING);
+        this.hideView(VIEWS.QUIT);
+        this.showView(VIEWS.LANDING);
 
         (<any>window).gtag('event', 'Click', {
           'event_category': 'Link',
@@ -326,42 +339,42 @@ export class Ui {
     }
 
     if (this.closeAboutBtn) {
-      this.closeAboutBtn.addEventListener('click', function() {
-        uiClass.hideView(VIEWS.ABOUT);
+      this.closeAboutBtn.addEventListener('click', () => {
+        this.hideView(VIEWS.ABOUT);
         history.replaceState({page: '/'}, 'Emoji Scavenger Hunt', '/');
       });
     }
 
     if(this.homeBtns.length > 0) {
-      Array.from(this.homeBtns).forEach(item => {
-        item.addEventListener('click', function() {
+      for (const item of Array.from(this.homeBtns)) {
+        item.addEventListener('click', () => {
           game.resetGame();
-          if (uiClass.activeView === VIEWS.FOUND_ALL_ITEMS) {
-            uiClass.resetCameraAfterFlash();
+          if (this.activeView === VIEWS.FOUND_ALL_ITEMS) {
+            this.resetCameraAfterFlash();
           }
-          if (uiClass.activeView === VIEWS.FOUND_NO_ITEMS ||
-            uiClass.activeView === VIEWS.FOUND_X_ITEMS ||
-            uiClass.activeView === VIEWS.FOUND_ALL_ITEMS) {
-              removeClass(uiClass.viewsList[uiClass.activeView],
+          if (this.activeView === VIEWS.FOUND_NO_ITEMS ||
+            this.activeView === VIEWS.FOUND_X_ITEMS ||
+            this.activeView === VIEWS.FOUND_ALL_ITEMS) {
+              removeClass(this.viewsList[this.activeView],
                   CSS_CLASSES.SLIDE_DOWN);
           } else {
-            uiClass.hideView(uiClass.activeView);
+            this.hideView(this.activeView);
           }
 
-          uiClass.showView(VIEWS.LANDING);
+          this.showView(VIEWS.LANDING);
 
           (<any>window).gtag('event', 'Click', {
             'event_category': 'Icon',
             'event_label': 'Home'
           });
         });
-      });
+      }
     }
 
     if(this.aboutBtns.length > 0) {
-      Array.from(this.aboutBtns).forEach(item => {
-        item.addEventListener('click', function() {
-          uiClass.showView(VIEWS.ABOUT);
+      for (const item of Array.from(this.aboutBtns)) {
+        item.addEventListener('click', () => {
+          this.showView(VIEWS.ABOUT);
           history.pushState({page: 'about'}, 'Emoji Scavenger Hunt - About',
               '?about=true');
           (<any>window).gtag('event', 'Click', {
@@ -369,33 +382,65 @@ export class Ui {
             'event_label': 'About'
           });
         });
-      });
+      }
     }
   }
 
+  /**
+   * The found message shown in the sleuth UI which includes an emoji icon.
+   *
+   * @returns The sleuth found message display string.
+   */
   get sleuthSpeakingFoundItMsg(): string {
     return `Hey you found <img class="view__sleuth__speaking__emoji"` +
            `src="${game.currentEmoji.path}"` +
            `alt="${game.currentEmoji.emoji} icon"/>\u00A0!`;
   }
 
+  /**
+   * The found message spoken by the sleuth which includes the emoji label.
+   *
+   * @returns The sleuth found message speak string.
+   */
   get sleuthSpeakingFoundItMsgEmojiName(): string {
     return `Hey you found ${game.currentEmoji.name}\u00A0!`;
   }
 
+  /**
+   * The message shown and spoken by the sleuth when you find X items.
+   *
+   * @returns You found X items message string.
+   */
   get sleuthSpeakingFoundXMsg(): string {
     return `Nice job. You found ${game.score.toString()} ` +
            `${game.score === 1 ? `item.` : `items.`}`;
   }
 
+  /**
+   * The message shown and spoken when your time is up and you haven't found
+   * any items.
+   *
+   * @returns Your time is up message string.
+   */
   get sleuthSpeakingFoundNoMsg(): string {
     return 'Oh no! Your time is up.';
   }
 
+  /**
+   * The message shown and spoken when you win the game.
+   *
+   * @returns You did it message string.
+   */
   get sleuthSpeakingFoundAllMsg(): string {
     return 'You did it!';
   }
 
+  /**
+   * The message shown and spoken when the model sees items in the real world.
+   *
+   * @returns A message constructed with our sleuthSpeakingPrefixes plus some
+   * item seen in the real world.
+   */
   get sleuthSpeakingSeeingMsg(): string {
     let randomIndex = Math.floor(this.sleuthSpeakingPrefixes.length *
         Math.random());
@@ -403,7 +448,13 @@ export class Ui {
            game.topItemGuess.toString() + ' ?';
   }
 
-  updateTimer = (value: number, updateCountDownTimer = false) => {
+  /**
+   * Updates the timer element with the new time remaining.
+   * @param value The value to update the timer UI to.
+   * @param updateCountDownTimer If true is passed in we also update the
+   * countdown view to show how many seconds is remaining.
+   */
+  updateTimer(value: number, updateCountDownTimer = false) {
     this.timerEl.textContent = value.toString();
 
     if (updateCountDownTimer) {
@@ -412,7 +463,13 @@ export class Ui {
     }
   }
 
-  delayedUpdateTimer = (value: number) => {
+  /**
+   * Updates the timer element with the new time with a slight delay in update
+   * time. This is so that we can create a staggered UI affect as the timer gets
+   * updated.
+   * @param value The value to update the timer UI to.
+   */
+  delayedUpdateTimer(value: number) {
     return new Promise(resolve => {
       setTimeout(() => {
         this.updateTimer(value);
@@ -421,7 +478,13 @@ export class Ui {
     });
   }
 
-  extendTimer = async () => {
+  /**
+   * Extends the timer with an additional game extends amount (GAME_EXTEND_TIME)
+   * using a staggered affect to show the timer UI updating over time.
+   *
+   * @async
+   */
+  async extendTimer() {
     game.playAudio(AUDIO.TIMER_INCREASE, true);
     let maxTimer = ((game.timer + 1) + GAME_EXTEND_TIME) + 1;
     for (let i = game.timer + 2; i < maxTimer; i++) {
@@ -431,11 +494,20 @@ export class Ui {
     game.timer = maxTimer - 1;
   }
 
-  updateScore = () => {
+  /**
+   * Updates the score UI.
+   */
+  updateScore() {
     this.scoreEl.textContent = game.score.toString();
   }
 
-  setSleuthSpeakerText = (msg: string, msgMarkup = false) => {
+  /**
+   * Sets the sleuth UI element text.
+   * @param msg The message to update the speaker text to.
+   * @param msgMarkup If true the message contains markup and we set that
+   * directly.
+   */
+  setSleuthSpeakerText(msg: string, msgMarkup = false) {
 
     if (msgMarkup) {
       this.sleuthSpeakingEl.innerHTML = msg;
@@ -446,31 +518,45 @@ export class Ui {
     this.sleuthSpeakingEl.style.display = 'block';
   }
 
-  resetSleuthSpeakerText = () => {
+  /**
+   * Resets the sleuth speaker text.
+   */
+  resetSleuthSpeakerText() {
     this.sleuthSpeakingEl.textContent = '';
   }
 
-  hideSleuthSpeakerText = () => {
+  /**
+   * Hides the sleuth speaker UI element.
+   */
+  hideSleuthSpeakerText() {
     this.sleuthSpeakingEl.style.display = 'none';
     this.sleuthSpeakingEl.textContent = '';
   }
 
-  setNrEmojisFound = () => {
+  /**
+   * Updates the win and end screen UI elements with the amount of emojis found.
+   */
+  setNrEmojisFound() {
     this.nrEmojisFoundEl.textContent =
         `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
     this.nrMaxEmojisFoundEl.textContent =
     `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
   }
 
-  setEmojisFoundList = (screen: string) => {
+  /**
+   * Updates the win and end screens UI elements with the list of emojis icons
+   * that the user found.
+   * @param screen Which screen this was called from, either 'Win' or 'End'.
+   */
+  setEmojisFoundList(screen: string) {
 
     let emojiFoundString = '';
     let spacer = '';
-    game.emojisFound.forEach((emojiItem: EmojiItem, index: number,
-        array: EmojiItem[]) => {
-      spacer = (index === array.length - 1) ? '' : ' ';
-      emojiFoundString = emojiFoundString + emojiItem.emoji + spacer;
-    });
+    for (let i = 0; i < game.emojisFound.length; i++) {
+      let item = game.emojisFound[i];
+      spacer = (i === game.emojisFound.length - 1) ? '' : ' ';
+      emojiFoundString = emojiFoundString + item.emoji + spacer;
+    }
 
     (<any>window).gtag('event', `${screen}`, {
       'event_category': 'Game',
@@ -488,7 +574,10 @@ export class Ui {
     share.setTwitterShareLinks(emojiFoundString);
   }
 
-  nextEmojiBtnClick = () => {
+  /**
+   * Resets the UI after an emoji was found and shows the UI for the next emoji.
+   */
+  nextEmojiBtnClick() {
     game.nextEmoji();
     this.resetSleuthSpeakerText();
     this.hideSleuthSpeakerText();
@@ -497,7 +586,11 @@ export class Ui {
     this.hideView(VIEWS.FOUND_ITEM);
   }
 
-  cameraFlash = () => {
+  /**
+   * Triggers a camera flash animation on the screen when an item has been
+   * found.
+   */
+  cameraFlash() {
     const animationEnded = (e: Event) => {
       addClass(this.cameraFlashEl,'freeze');
       addClass(this.cameraCaptureEl, 'capture');
@@ -508,7 +601,10 @@ export class Ui {
     addClass(this.cameraFlashEl,'flash');
   }
 
-  resetCameraAfterFlash = () => {
+  /**
+   * Resets the camera to the default state after a camera flash occured.
+   */
+  resetCameraAfterFlash() {
     if (game.cameraPaused) {
       camera.unPauseCamera();
     }
@@ -518,38 +614,68 @@ export class Ui {
     removeClass(this.cameraCaptureEl, 'capture');
   }
 
-  setActiveView = (view: string) => {
+  /**
+   * Sets the active UI view.
+   * @param view The view to set as the active view.
+   */
+  setActiveView(view: string) {
     this.prevActiveView = this.activeView;
     this.activeView = view;
   }
 
-  setActiveEmoji = (emojiPath: string) => {
+  /**
+   * Sets the active emoji we are currently trying to find.
+   * @param emojiPath The emoji object path to the icon file.
+   */
+  setActiveEmoji(emojiPath: string) {
     this.statusBarEmojiEl.src = emojiPath;
     this.countdownEmojiEl.src = emojiPath;
   }
 
-  setLandingInfoMsg = (msg: string) => {
+  /**
+   * Updates the landing page body copy with a message. Used for showing
+   * platform messages.
+   * @param msg The message to show.
+   */
+  setLandingInfoMsg(msg: string) {
     this.landingInfoMsgEl.textContent = msg;
   }
 
-  hideView = (view: string) => {
+  /**
+   * Hides a UI view.
+   * @param view The view to hide.
+   */
+  hideView(view: string) {
     this.viewsList[view].style.display = 'none';
     this.activeView = this.prevActiveView;
   }
 
-  showView = (view: string) => {
+  /**
+   * Shows a UI view.
+   * @param view The view to show.
+   */
+  showView(view: string) {
     this.viewsList[view].style.display = 'flex';
     this.prevActiveView = this.activeView;
     this.activeView = view;
   }
 
-  showItemFoundView = () => {
+  /**
+   * Triggers the actions related to finding an emoji. Updating the view, score
+   * and timer.
+   */
+  showItemFoundView() {
     this.showView(VIEWS.FOUND_ITEM);
     this.updateScore();
     this.extendTimer();
   }
 
-  showNoItemsFoundView = () => {
+  /**
+   * Triggers the actions related to the game ending with the user having found
+   * no emojis. NOTE this view slides in from the top and doesn't simply
+   * display like other views.
+   */
+  showNoItemsFoundView() {
     game.pauseGame();
     game.playAudio(AUDIO.FAIL);
 
@@ -563,7 +689,13 @@ export class Ui {
     });
   }
 
-  showXItemsFoundView = () => {
+  /**
+   * Triggers the actions related to the game ending with the user having found
+   * 1 or more emojis. NOTE this view slides in from the top and doesn't simply
+   * display like other views. Before sliding in this view we update relevant
+   * UI elements related to it.
+   */
+  showXItemsFoundView() {
     game.pauseGame();
     this.setNrEmojisFound();
     this.setEmojisFoundList(GAME_OUTCOME.END);
@@ -579,7 +711,13 @@ export class Ui {
     });
   }
 
-  showAllItemsFoundView = () => {
+  /**
+   * Triggers the actions related to the game ending with the user having found
+   * all emojis for this game instance. NOTE this view slides in from the top
+   * and doesn't simply display like other views. Before sliding in this view
+   * we update relevant UI elements related to it.
+   */
+  showAllItemsFoundView() {
     game.pauseGame();
     game.playAudio(AUDIO.WIN);
     this.setNrEmojisFound();
@@ -592,7 +730,16 @@ export class Ui {
     this.slideView(VIEWS.FOUND_ALL_ITEMS, CSS_CLASSES.SLIDE_DOWN, false);
   }
 
-  slideView = (view: string, cssClass: string, hideAfter = true) => {
+  /**
+   * A generic view function that enables the slide in of UI views.
+   * @param view The view to slide in
+   * @param cssClass The css class to apply to the view
+   * @param hideAfter Indicating if we need to hide the view after the
+   * transition ends.
+   *
+   * @returns A Promise when the slide transition ends.
+   */
+  slideView(view: string, cssClass: string, hideAfter = true) {
     return new Promise(resolve => {
 
       const transitionEnded = (e: Event) => {
@@ -611,23 +758,28 @@ export class Ui {
     });
   }
 
-  countDown = (count: string) => {
+  /**
+   * The countdown logic that after a second has passed hides the current
+   * countdown view or triggers the game start if we are at the last countdown.
+   * (3 - 2 - 1 - 0).
+   * @param count The current countdown view.
+   *
+   * @returns A Promise that resolves roughly after a second has passed.
+   */
+  countDown(count: string) {
     return new Promise(resolve => {
       setTimeout(() => {
         this.setActiveView(count);
         if (count === VIEWS.COUNTDOWN0) {
-          let uiClass = this;
           camera.unPauseCamera();
 
-          this.slideView(count, CSS_CLASSES.SLIDE_UP).then(function(value) {
+          this.slideView(count, CSS_CLASSES.SLIDE_UP).then(value => {
             if (!game.isRunning) {
               game.startGame();
             }
 
-            uiClass.resetCountDownUi();
-            uiClass.setActiveView(VIEWS.CAMERA);
-          }, function(e) {
-            // not called
+            this.resetCountDownUi();
+            this.setActiveView(VIEWS.CAMERA);
           });
         } else {
           this.hideView(count);
@@ -637,7 +789,10 @@ export class Ui {
     });
   }
 
-  resetCountDownUi = () => {
+  /**
+   * Resets the countdown views.
+   */
+  resetCountDownUi() {
     this.hideView(VIEWS.COUNTDOWN);
     this.showView(VIEWS.COUNTDOWN3);
     this.showView(VIEWS.COUNTDOWN2);
@@ -645,7 +800,12 @@ export class Ui {
     this.showView(VIEWS.COUNTDOWN0);
   }
 
-  showCountdown = async () => {
+  /**
+   * Shows the countdown view.
+   *
+   * @async
+   */
+  async showCountdown() {
 
     game.playAudio(AUDIO.COUNTDOWN);
 
@@ -675,6 +835,8 @@ export class Ui {
     }
     this.showView(VIEWS.COUNTDOWN);
 
+    // This await logic ensures that each countdown view which returns a promise
+    // blocks until each view resolves in the 1 second countdown time.
     await this.countDown(VIEWS.COUNTDOWN3);
     await this.countDown(VIEWS.COUNTDOWN2);
     await this.countDown(VIEWS.COUNTDOWN1);

@@ -20,8 +20,7 @@ import {MobileNet} from './mobilenet';
 import {camera, VIDEO_PIXELS} from './camera';
 import {VIEWS, ui, GAME_STRINGS} from './ui';
 import {share} from './share';
-import {getQueryParam} from './utils';
-import {isIOS} from './utils';
+import {getQueryParam, isIOS} from './utils';
 import {shuffle} from 'lodash';
 import * as tfc from '@tensorflow/tfjs-core';
 
@@ -528,6 +527,8 @@ const EMOJIS_LVL_5: Array<EmojiItem> = [
   }
 ];
 
+// Items for the demo are always selected in the same order as they are defined
+// here.
 const EMOJIS_LVL_DEMO: Array<EmojiItem> = [
   {
     'name': 'watch',
@@ -587,15 +588,20 @@ export const AUDIO = {
   TIMER_INCREASE: 'timerincrease'
 };
 
+/** Manages game state and various tasks related to game events. */
 export class Game {
-
+  /** Our MobileNet instance and how we get access to our trained model. */
   emojiScavengerMobileNet: MobileNet;
   isRunning: boolean;
   cameraPaused: boolean;
+  /** The current score for the user based on how many emoji they have found. */
   score: number;
+  /** The available time to find the emoji (in seconds). */
   timer: number;
   timerAtStartOfRound: number;
+  /** Timer interval so we can continually update the timer. */
   timerInterval: number;
+  /** Speak interval for reading out objects from the camera every x seconds. */
   speakInterval: number;
   emojiLvl1: Array<EmojiItem>;
   emojiLvl2: Array<EmojiItem>;
@@ -603,12 +609,26 @@ export class Game {
   emojiLvl4: Array<EmojiItem>;
   emojiLvl5: Array<EmojiItem>;
   emojiLvlDemo: Array<EmojiItem>;
+  /**
+   * A lookup containing references to each level of emoji which can be used
+   * to find the next emoji from that particular level.
+   */
   emojiLvlLookup: EmojiLevelsLookup;
+  /** Array of emoji items the user has found during this game instance. */
   emojisFound: Array<EmojiItem>;
-  maxEmojis: number;
+  /**
+   * A string containing the order of emojis levels we will pick randomly from
+   * for each game instance. E.g '1123445' would pick one item from level 1
+   * followed by another from level 1, then one from level 2 etc.
+   */
   gameDifficulty: string;
+  /** The current emoji to find. */
   currentEmoji: EmojiItem;
   currentLvlIndex: number;
+  /**
+   * The current top ranked item the model has predicted and identified from
+   * the camera.
+   */
   topItemGuess: string;
   audioSources: AudioSources;
   sleuth: Sleuths;
@@ -626,7 +646,6 @@ export class Game {
     this.score = 0;
     this.timer = GAME_START_TIME;
     this.emojisFound = [];
-    this.maxEmojis = GAME_MAX_ITEMS;
     this.topItemGuess = null;
     this.sleuth = shuffle(SLEUTHS)[0];
     this.sleuthVoice = {
@@ -674,32 +693,37 @@ export class Game {
       this.debugMode = true;
     }
 
+    // Calls to window.speechSynthesis.getVoices() are async hence we call our
+    // function that sets speaking voices from within the onvoiceschanged event
+    // again to ensure we have all voices loaded before setting them.
     this.setupSpeakVoice();
-
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = this.setupSpeakVoice;
+      window.speechSynthesis.onvoiceschanged = this.setupSpeakVoice.bind(this);
     }
 
     share.initShareElements();
 
   }
 
-  setupDemoMode = () => {
+  setupDemoMode() {
     // Sets the game emojis to use the demo emojis from EMOJIS_LVL_DEMO.
     // This set is also not shuffled and always appear in the same order.
     this.gameDifficulty = '#';
   }
 
-  setupSpeakVoice = () => {
-    let gameClass = this;
-
-    window.speechSynthesis.getVoices().filter(function(voice) {
-      if (voice.name === gameClass.sleuth.nonGoogleVoice) {
-        gameClass.sleuthVoice['nonGoogleVoice'] = voice;
+  /**
+   * Gets a list of supported speechSynthesis voices on the current platform
+   * and checks support for our selected voices. If the Google US English voice
+   * is available use that, else set to our back up voice selection.
+   */
+  setupSpeakVoice() {
+    window.speechSynthesis.getVoices().filter(voice => {
+      if (voice.name === this.sleuth.nonGoogleVoice) {
+        this.sleuthVoice['nonGoogleVoice'] = voice;
       }
 
-      if (voice.name === gameClass.sleuth.googleVoice) {
-        gameClass.sleuthVoice['googleVoice'] = voice;
+      if (voice.name === this.sleuth.googleVoice) {
+        this.sleuthVoice['googleVoice'] = voice;
       }
     });
 
@@ -710,36 +734,45 @@ export class Game {
     }
   }
 
-  setupAudioSources = () => {
-    /* We need to start and pause the audio sources when the game is
-       initialized since we can't play audio sources from JS on mobile
-       when not inititaited from a user action (like a click event) */
-    for (let item in this.audioSources) {
-      if (this.audioSources.hasOwnProperty(item)) {
-        this.audioSources[item].muted = true;
-        let playPromise = this.audioSources[item].play();
-        if (playPromise !== undefined) {
-          playPromise.then(_ => {
-            this.audioSources[item].pause();
-            this.audioSources[item].muted = false;
-          })
-          .catch(error => {
-            console.log('Error with play promise');
-          });
-        }
+  /**
+   * Cycles audio sources for the game and plays them and immediately pausing
+   * them after. This ensures they are ready for play later on during the game
+   * lifecycle and can be played from JavaScript functions.
+   */
+  setupAudioSources() {
+    // We need to start and pause the audio sources when the game is
+    // initialized since we can't play audio sources from JS on mobile
+    // when not initiated from a user action (like a click event).
+    for (const item of Object.keys(this.audioSources)) {
+      this.audioSources[item].muted = true;
+      let playPromise = this.audioSources[item].play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          this.audioSources[item].pause();
+          this.audioSources[item].muted = false;
+        })
+        .catch(error => {
+          console.log('Error with play promise');
+        });
       }
     }
   }
 
-  resetAudioSources = () => {
-    for (let item in this.audioSources) {
-      if (this.audioSources.hasOwnProperty(item)) {
-        this.pauseAudio(item);
-      }
+  /**
+   * Resets all audio sources.
+   */
+  resetAudioSources() {
+    for (const item of Object.keys(this.audioSources)) {
+      this.pauseAudio(item);
     }
   }
 
-  playAudio = (audio: string, loop = false) => {
+  /**
+   * Plays a provided audio file.
+   * @param audio The audio file to play.
+   * @param loop Indicates if the audio file should loop.
+   */
+  playAudio(audio: string, loop = false) {
     if (loop) {
       this.audioSources[audio].loop = true;
     }
@@ -748,31 +781,60 @@ export class Game {
       let playPromise = this.audioSources[audio].play();
 
       if (playPromise !== undefined) {
-        playPromise.catch(function(error) {
+        playPromise.catch(error => {
           console.log('Error in playAudio: ' + error);
         });
       }
     }
   }
 
-  pauseAudio = (audio: string) => {
+  /**
+   * Pauses an audio file.
+   * @param audio The audio file to pause.
+   */
+  pauseAudio(audio: string) {
     this.audioSources[audio].pause();
     this.audioSources[audio].currentTime = 0;
   }
 
-  audioIsPlaying = (audio: string) => {
+  /**
+   * Checks if the provided audio file is currently playing.
+   * @param audio The audio file to test against.
+   * @returns true if the audio is playing, false if not.
+   */
+  audioIsPlaying(audio: string) {
     return !this.audioSources[audio].paused;
   }
 
-  warmUpModel = () => {
+  /**
+   * Ensures the MobileNet prediction model in tensorflow.js is ready to
+   * accept data when we need it by triggering a predict call with zeros to
+   * preempt the predict tensor setups.
+   */
+  warmUpModel() {
     this.emojiScavengerMobileNet.predict(
         tfc.zeros([VIDEO_PIXELS, VIDEO_PIXELS, 3]));
   }
 
-  predict = async () => {
+  /**
+   * The game MobileNet predict call used to identify content from the camera
+   * and make predictons about what it is seeing.
+   * @async
+   */
+  async predict() {
+
+    // Only do predictions if the game is running, ensures performant view
+    // transitions and saves battery life when the game isn't in running mode.
     if (this.isRunning) {
+      // Run the tensorflow predict logic inside a tfc.tidy call which helps
+      // to clean up memory from tensorflow calls once they are done.
       const result = tfc.tidy(() => {
 
+        // For UX reasons we spread the video element to 100% of the screen
+        // but our traning data is trained against 244px images. Before we
+        // send image data from the camera to the predict engine we slice a
+        // 244 pixel area out of the center of the camera screen to ensure
+        // better matching against our model.
         const pixels = tfc.fromPixels(camera.videoElement);
         const centerHeight = pixels.shape[0] / 2;
         const beginHeight = centerHeight - (VIDEO_PIXELS / 2);
@@ -784,25 +846,38 @@ export class Game {
 
         return this.emojiScavengerMobileNet.predict(pixelsCropped);
       });
+
+      // This call retrieves the topK matches from our MobileNet for the
+      // provided image data.
       const topK =
           await this.emojiScavengerMobileNet.getTopKClasses(result, 10);
 
+      // Match the top 2 matches against our current active emoji.
       this.checkEmojiMatch(topK[0].label, topK[1].label);
 
+      // if ?debug=true is passed in as a query param show the topK classes
+      // on screen to help with debugging.
       if (this.debugMode) {
         ui.predictionResultsEl.style.display = 'block';
         ui.predictionResultsEl.innerText = '';
 
-        topK.forEach(item => {
+        for (const item of topK) {
           ui.predictionResultsEl.innerText +=
                 `${item.value.toFixed(5)}: ${item.label}\n`;
-        });
+        }
       }
     }
+
+    // To ensure better page responsiveness we call our predict function via
+    // requestAnimationFrame - see goo.gl/1d9cJa
     requestAnimationFrame(() => this.predict());
   }
 
-  initGame = () => {
+  /**
+   * Initializes the game and sets up camera and MobileNet access. Once ready
+   * shows the countdown to start the game.
+   */
+  initGame() {
     if (this.firstRun) {
       ui.showView(VIEWS.LOADING);
       Promise.all([
@@ -824,19 +899,19 @@ export class Game {
         ui.startGameBtn.style.display = 'none';
         ui.hideView(VIEWS.LOADING);
 
-        /* iOS does not provide access to mediaDevices.getUserMedia via
-           UiWebviews in iOS 11.2 - This causes a TypeError to be returned
-           which we handle to display a relevant message to encourage the user
-           to open the game in the standard Safari app */
+        // iOS does not provide access to mediaDevices.getUserMedia via
+        // UiWebviews in iOS 11.2 - This causes a TypeError to be returned
+        // which we handle to display a relevant message to encourage the user
+        // to open the game in the standard Safari app.
         if (error.name === 'TypeError' && isIOS()) {
           ui.setLandingInfoMsg(GAME_STRINGS.SAFARI_WEBVIEW);
         } else if (error.name === 'NotAllowedError') {
-          /* Users that explicitly deny camera access get a message that
-             encourages them to enable camera access */
+          // Users that explicitly deny camera access get a message that
+          // encourages them to enable camera access.
           ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_NO_ACCESS);
         } else {
-          /* General error message for issues getting camera access via
-             mediaDevices.getUserMedia */
+          // General error message for issues getting camera access via
+          // mediaDevices.getUserMedia.
           ui.setLandingInfoMsg(GAME_STRINGS.CAMERA_GENERAL_ERROR);
         }
       });
@@ -845,7 +920,11 @@ export class Game {
     }
   }
 
-  startGame = () => {
+  /**
+   * Starts the game by setting the game to running, playing audio and
+   * registering the game timer and speech intervals.
+   */
+  startGame() {
     camera.unPauseCamera();
     this.isRunning = true;
 
@@ -864,8 +943,10 @@ export class Game {
     }, SPEAKING_DELAY);
   }
 
-  restartGame = () => {
-
+  /**
+   * Restarts the game.
+   */
+  restartGame() {
     if (ui.activeView === VIEWS.FOUND_ALL_ITEMS) {
       ui.resetCameraAfterFlash();
     }
@@ -874,7 +955,10 @@ export class Game {
     ui.showCountdown();
   }
 
-  resetGame = () => {
+  /**
+   * Resets all game variables and UI so we can start a new game instance.
+   */
+  resetGame() {
 
     this.resetAudioSources();
 
@@ -898,7 +982,10 @@ export class Game {
     ui.hideSleuthSpeakerText();
   }
 
-  pauseGame = () => {
+  /**
+   * Pauses the game.
+   */
+  pauseGame() {
     this.gameIsPaused = true;
 
     this.isRunning = false;
@@ -910,17 +997,23 @@ export class Game {
     window.clearInterval(this.speakInterval);
   }
 
-  resumeGame = () => {
+  /**
+   * Resumes the game.
+   */
+  resumeGame() {
     if (this.gameIsPaused) {
       this.startGame();
     }
   }
 
-  getMobileNet = () => {
-    return this.emojiScavengerMobileNet;
-  }
-
-  speak = (msg: string) => {
+  /**
+   * Uses the speechSynthesis API to speak out strings from the game.
+   * Used for things like what the model is seeing in the real world, and
+   * giving the user an audio notification when they found an item or the game
+   * is over.
+   * @param msg
+   */
+  speak(msg: string) {
     if (this.topItemGuess) {
       if ('speechSynthesis' in window) {
         let msgSpeak = new SpeechSynthesisUtterance();
@@ -932,7 +1025,11 @@ export class Game {
     }
   }
 
-  handleGameTimerCountdown = () => {
+  /**
+   * Handles the game timer logic that is executed at every GAME_TIMER_DELAY
+   * (currently every second)
+   */
+  handleGameTimerCountdown() {
 
     if (this.timer === 0) {
       this.pauseAudio(AUDIO.GAME_LOOP);
@@ -960,16 +1057,22 @@ export class Game {
 
   }
 
-  checkEmojiMatch = (emojiNameTop1: string, emojiNameTop2: string) => {
+  /**
+   * Determines if our top 2 matches from the MobileNet is the emoji we are
+   * currently looking to find.
+   * @param emojiNameTop1 Top guess emoji name.
+   * @param emojiNameTop2 Second place guess emoji name.
+   */
+  checkEmojiMatch(emojiNameTop1: string, emojiNameTop2: string) {
 
     // If our top guess is different from when we last checked update the
     // top guess.
     if (this.topItemGuess !== emojiNameTop1) {
       this.topItemGuess = emojiNameTop1;
 
-      /* As soon as we have a top guess available try to speak so the game
-         and prediction feels snappy instead of waiting for the 2.5second
-         speak delay to speak the initial guess */
+      // As soon as we have a top guess available try to speak so the game
+      // and prediction feels snappy instead of waiting for the 2.5 second
+      // speak delay to speak out the initial guess.
       if (this.firstSpeak) {
         let msg = ui.sleuthSpeakingSeeingMsg;
         ui.setSleuthSpeakerText(msg);
@@ -984,7 +1087,12 @@ export class Game {
     }
   }
 
-  nextEmoji = () => {
+  /**
+   * Determines the next emoji that the user will be asked to find using the
+   * gameDifficulty levels to request a level based on how far the user has
+   * progressed in the game.
+   */
+  nextEmoji() {
 
     if (this.currentLvlIndex === this.gameDifficulty.length) {
       this.currentLvlIndex = 0;
@@ -994,6 +1102,9 @@ export class Game {
     let lvlArray = this.emojiLvlLookup[curLvl];
     let nextEmoji = lvlArray.shift();
 
+    // If we have selected all possible emojis from a particular level,
+    // reshuffle the list of possible emoji for that level and request a new
+    // next emoji.
     if (nextEmoji === undefined) {
       this.reShuffleLevelEmojis(curLvl);
       lvlArray = this.emojiLvlLookup[curLvl];
@@ -1011,7 +1122,15 @@ export class Game {
     });
   }
 
-  reShuffleLevelEmojis = (level: string) => {
+  /**
+   * Ensures that the possible list of emoji for each level is shuffled once we
+   * end up selecting all items from a level. This can happen in cases where
+   * we use a large levelDifficulty string that has more items than what we
+   * have for each level or if the game win number is increased beyond the
+   * current 10. Meaning a user can be asked to find a lot more emojis.
+   * @param level The level that we wish to re-shuffle
+   */
+  reShuffleLevelEmojis(level: string) {
     switch (level) {
       case '1':
         this.emojiLvlLookup[level] = shuffle(EMOJIS_LVL_1);
@@ -1029,15 +1148,20 @@ export class Game {
         this.emojiLvlLookup[level] = shuffle(EMOJIS_LVL_5);
         break;
       case '#':
+        // NOTE: the Demo list is not shuffled since we always request them in
+        // same order for demo purposes.
         this.emojiLvlLookup[level] = Array.from(EMOJIS_LVL_DEMO);
         break;
       default:
-        throw 'Error: expected ' + level + ' level string in the level ' +
-              'EmojiLevelsLookup';
+        throw new Error('Error: expected ' + level + ' level string in the ' +
+            'level EmojiLevelsLookup');
     }
   }
 
-  emojiFound = () => {
+  /**
+   * Triggers the camera flash and updates the score when we find an emoji.
+   */
+  emojiFound() {
     this.pauseGame();
 
     this.firstSpeak = true;
@@ -1054,10 +1178,10 @@ export class Game {
       'value': timeToFind
     });
 
-    if (this.maxEmojis === this.score) {
+    if (GAME_MAX_ITEMS === this.score) {
       ui.showAllItemsFoundView();
     } else {
-      setTimeout( () => {
+      setTimeout(() => {
         ui.showItemFoundView();
         ui.setSleuthSpeakerText(ui.sleuthSpeakingFoundItMsg, true);
         this.speak(ui.sleuthSpeakingFoundItMsgEmojiName);
