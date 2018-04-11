@@ -303,7 +303,8 @@ export class Ui {
     }
 
     if (this.nextEmojiBtn) {
-      this.nextEmojiBtn.addEventListener('click', this.nextEmojiBtnClick);
+      this.nextEmojiBtn.addEventListener('click',
+          this.nextEmojiBtnClick.bind(this));
     }
 
     if (this.cameraQuitBtn) {
