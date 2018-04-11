@@ -41,6 +41,7 @@ $zindex-13--loading-layer: 1300;
 html {
   box-sizing: border-box;
   font-size: 100%;
+  overflow: hidden;
   -webkit-text-size-adjust: 100%;
 }
 *, *:before, *:after {
@@ -57,10 +58,16 @@ img {
 
 body {
   background: white;
+  bottom: 0;
   font-family: $body-font;
   font-weight: 300;
-  padding: 0;
+  left: 0;
   margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .btn {
@@ -247,12 +254,15 @@ body {
   display: none;
   flex-direction: column;
   font-weight: 300;
-  position: relative;
+  left: 0;
+  position: fixed;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  top: 0;
   z-index: $zindex-11--about-layer;
+  -webkit-overflow-scrolling: touch;
 
   &__body {
     margin: 0 auto;
@@ -638,18 +648,18 @@ body {
 .view__found-x-items,
 .view__found-all-items {
   color: $c-white;
-  height: unset;
-  min-height: 100%;
+  justify-content: flex-start;
+  overflow-y: scroll;
   padding: 50px 0 100px;
+  -webkit-overflow-scrolling: touch;
 
   &__disclaimer {
-    font-size: 80%;
+    font-size: 11px;
     font-style: italic;
     opacity: .65;
   }
 
   @include bp(ls) {
-    justify-content: flex-start;
     padding-top: 30px;
   }
 
@@ -749,6 +759,11 @@ body {
       }
     }
   }
+}
+
+.view__found-x-items > *,
+.view__found-all-items > * {
+    flex: 0 0 auto;
 }
 
 .view__found-all-items {

@@ -610,14 +610,15 @@ export class Ui {
       caption.appendChild(emojiImg);
 
       photoContainer.appendChild(figure);
-    });
+    }
 
     while (this.emojisFoundListEl.firstChild) {
       this.emojisFoundListEl.removeChild(this.emojisFoundListEl.firstChild);
     }
 
     while (this.emojisMaxFoundListEl.firstChild) {
-      this.emojisMaxFoundListEl.removeChild(this.emojisMaxFoundListEl.firstChild);
+      this.emojisMaxFoundListEl.removeChild(
+          this.emojisMaxFoundListEl.firstChild);
     }
 
     addClass(photoContainer, 'photos-' + game.emojisFound.length);
@@ -914,6 +915,14 @@ export class Ui {
     await this.countDown(VIEWS.COUNTDOWN1);
     await this.countDown(VIEWS.COUNTDOWN0);
   }
+
+  /**
+   * Resets the scroll position of any scrollable elements.
+   */
+   resetScrollPositions() {
+     this.viewsList[VIEWS.FOUND_ALL_ITEMS].scrollTop = 0;
+     this.viewsList[VIEWS.FOUND_X_ITEMS].scrollTop = 0;
+   }
 }
 
 export let ui = new Ui();
