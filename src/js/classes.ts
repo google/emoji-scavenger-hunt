@@ -16,29 +16,47 @@
  * =============================================================================
  */
 
-const addClass = (el: HTMLElement, className: string) => {
+/**
+ * Adds a class to the provided element
+ *
+ * @param el The HTMLElement to apply the class to.
+ * @param className The class name to add to the element.
+ */
+function addClass(el: HTMLElement, className: string) {
   if (el.classList) {
     el.classList.add(className);
   } else {
     el.className += ' ' + className;
   }
-};
+}
 
-const removeClass = (el: HTMLElement, className: string) => {
+/**
+ * Removes a class from the provided element
+ *
+ * @param el The HTMLElement to remove the class from.
+ * @param className The class name to be removed from the element.
+ */
+function removeClass(el: HTMLElement, className: string) {
   if (el.classList) {
     el.classList.remove(className);
   } else {
     el.className = el.className.replace(new RegExp('(^|\\b)' +
       className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
   }
-};
+}
 
-const hasClass = (el: HTMLElement, className: string) => {
+/**
+ * Checks to see if the provided class exists on the element
+ *
+ * @param el The HTMLElement to check.
+ * @param className The class name to check for.
+ */
+function hasClass(el: HTMLElement, className: string) {
   if (el.classList) {
     return el.classList.contains(className);
   } else {
     return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
   }
-};
+}
 
 export {addClass, removeClass, hasClass};

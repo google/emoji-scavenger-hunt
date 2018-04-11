@@ -29,9 +29,11 @@ const CSS_CLASSES = {
 
 export const VIDEO_PIXELS = 224;
 
+/** Initializes and manages interaction with the camera */
 export class Camera {
-
+  /** The HTMLVideoElement used to show content from the camera */
   videoElement: HTMLVideoElement;
+  /** The native aspect ratio of the video element once initialized */
   aspectRatio: number;
 
   constructor() {
@@ -39,7 +41,15 @@ export class Camera {
       <HTMLVideoElement>document.querySelector(SELECTORS.CAMERA_ELEMENT);
   }
 
-  setupCamera = async () => {
+  /**
+   * Requests access to the camera and return a Promise with the native width
+   * and height of the video element when resolved.
+   *
+   * @async
+   * @returns {Promise<CameraDimentions>} A promise with the width and height
+   * of the video element used as the camera.
+   */
+  async setupCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const stream = await navigator.mediaDevices.getUserMedia({
         'audio': false,
@@ -58,7 +68,15 @@ export class Camera {
     return null;
   }
 
-  setupVideoDimensions = (width: number, height: number) => {
+  /**
+   * Adjusts the video element width and height to align with the native
+   * screen aspect ratio while also constraining it to the amount of pixel
+   * we use for our training data.
+   *
+   * @param width The video element native width.
+   * @param height The video element native height.
+   */
+  setupVideoDimensions(width: number, height: number) {
     this.aspectRatio = width / height;
 
     if (width >= height) {
@@ -70,21 +88,25 @@ export class Camera {
     }
   }
 
-  pauseCamera = () => {
+  pauseCamera() {
     if (!game.cameraPaused) {
       this.videoElement.pause();
       game.cameraPaused = true;
     }
   }
 
-  unPauseCamera = () => {
+  unPauseCamera() {
     if (game.cameraPaused) {
       this.videoElement.play();
       game.cameraPaused = false;
     }
   }
 
-  setFrontFacingCamera = () => {
+  /**
+   * Adjusts the camera CSS to flip the display since we are viewing the
+   * camera on a desktop where we want the camera to be mirrored.
+   */
+  setFrontFacingCamera() {
     addClass(this.videoElement, CSS_CLASSES.CAMERA_FRONT_FACING);
   }
 }

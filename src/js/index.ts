@@ -18,14 +18,20 @@
 
 import {ui} from './ui';
 
-const init = async () => {
+/**
+ * Ensures no media stream tracks are active and initializes our UI.
+ *
+ * @async
+ */
+async function init() {
   if ((<any>window).stream) {
-    (<any>window).stream.getTracks().forEach((track: MediaStreamTrack) => {
+    let trackArr = (<any>window).stream.getTracks();
+    for (const track of trackArr) {
       track.stop();
-    });
+    }
   }
 
   ui.init();
-};
+}
 
 init();
