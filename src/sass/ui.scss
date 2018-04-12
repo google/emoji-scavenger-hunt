@@ -107,6 +107,17 @@ body {
   transition: transform 500ms $material-ease-out;
 }
 
+@keyframes timer-flash-animation {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
 .social-share-icon {
   width: 30px;
   height: 30px;
@@ -232,7 +243,7 @@ body {
 }
 
 .view__about {
-  background-color: $about-bg-red;
+  background-color: $c-about-bg-red;
   color: $c-white;
   display: none;
   flex-direction: column;
@@ -776,8 +787,33 @@ body {
       padding: 0 15px 0 7px;
     }
 
+    &__timer-container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      min-width: 45px;
+      position: relative;
+
+      span {
+        position: absolute;
+      }
+    }
+
     &__timer {
       padding: 0 0 0 7px;
+    }
+
+    &__timer-flash {
+      color: $c-info-timer-flash;
+      display: none;
+      left: 7px;
+      padding: 0 0 0 7px;
+
+      &.flash {
+        animation-name: timer-flash-animation;
+        animation-duration: .5s;
+        animation-timing-function: $material-ease-out;
+      }
     }
   }
 }
