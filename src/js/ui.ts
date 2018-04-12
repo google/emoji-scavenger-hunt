@@ -471,14 +471,14 @@ export class Ui {
 
       const timerFlashAnimationEnded = (e: Event) => {
         this.timerFlashEl.style.display = 'none';
-        removeClass(this.timerFlashEl,'flash');
+        removeClass(this.timerFlashEl, 'flash');
         this.timerFlashEl.removeEventListener('animationend',
             timerFlashAnimationEnded);
       };
       this.timerFlashEl.style.display = 'block';
       this.timerFlashEl.addEventListener('animationend',
           timerFlashAnimationEnded);
-      addClass(this.timerFlashEl,'flash');
+      addClass(this.timerFlashEl, 'flash');
     } else {
       this.timerEl.textContent = value.toString();
     }
