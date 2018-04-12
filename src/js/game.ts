@@ -1081,13 +1081,17 @@ export class Game {
       else {
         ui.showXItemsFoundView();
       }
-    } else if (this.timer === 5) {
-      this.playAudio(AUDIO.TIME_RUNNING_LOW);
+    } else if (this.timer <= 5) {
+      if (this.timer === 5) {
+        this.playAudio(AUDIO.TIME_RUNNING_LOW);
+      }
+
+      ui.updateTimer(this.timer, false, true);
+    } else {
+      ui.updateTimer(this.timer);
     }
 
-    ui.updateTimer(this.timer);
     this.timer--;
-
   }
 
   /**

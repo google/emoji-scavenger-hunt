@@ -75,6 +75,7 @@ const SELECTORS = {
   CAMERA_CAPTURE_EL: '.camera__capture-wrapper--js',
   CAMERA_DESKTOP_MSG_EL: '.view__camera__desktop-msg',
   TIMER_EL: '.view__status-bar__info__timer--js',
+  TIMER_FLASH_EL: '.view__status-bar__info__timer-flash--js',
   TIMER_COUNTDOWN_EL: '.view__countdown__0__find-time-val--js',
   SCORE_EL: '.view__status-bar__info__score--js',
   NR_FOUND_EL: '.view__found-x-items__nr-found--js',
@@ -84,7 +85,7 @@ const SELECTORS = {
   LANDING_DESKTOP_MSG_EL: '.view__landing__desktop-msg--js',
   LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js',
   LANDING_INFO_MSG_EL: '.view__landing__intro--js',
-  AGE_DISCLAIMER_MSG_EL: 'view__landing__age-msg--js'
+  AGE_DISCLAIMER_MSG_EL: '.view__landing__age-msg--js'
 };
 
 const CSS_CLASSES = {
@@ -135,6 +136,7 @@ export class Ui {
   cameraCaptureEl: HTMLElement;
   cameraDesktopMsgEl: HTMLElement;
   timerEl: HTMLElement;
+  timerFlashEl: HTMLElement;
   timerCountdownEl: HTMLElement;
   scoreEl: HTMLElement;
   nrEmojisFoundEl: HTMLElement;
@@ -192,6 +194,7 @@ export class Ui {
     this.cameraDesktopMsgEl =
         document.querySelector(SELECTORS.CAMERA_DESKTOP_MSG_EL);
     this.timerEl = document.querySelector(SELECTORS.TIMER_EL);
+    this.timerFlashEl = document.querySelector(SELECTORS.TIMER_FLASH_EL);
     this.timerCountdownEl =
         document.querySelector(SELECTORS.TIMER_COUNTDOWN_EL);
     this.scoreEl = document.querySelector(SELECTORS.SCORE_EL);
@@ -460,8 +463,25 @@ export class Ui {
    * @param updateCountDownTimer If true is passed in we also update the
    * countdown view to show how many seconds is remaining.
    */
-  updateTimer(value: number, updateCountDownTimer = false) {
-    this.timerEl.textContent = value.toString();
+  updateTimer(value: number, updateCountDownTimer = false,
+        addFlashAnimation = false) {
+    if (addFlashAnimation) {
+      this.timerEl.textContent = value.toString();
+      this.timerFlashEl.textContent = value.toString();
+
+      const timerFlashAnimationEnded = (e: Event) => {
+        this.timerFlashEl.style.display = 'none';
+        removeClass(this.timerFlashEl, 'flash');
+        this.timerFlashEl.removeEventListener('animationend',
+            timerFlashAnimationEnded);
+      };
+      this.timerFlashEl.style.display = 'block';
+      this.timerFlashEl.addEventListener('animationend',
+          timerFlashAnimationEnded);
+      addClass(this.timerFlashEl, 'flash');
+    } else {
+      this.timerEl.textContent = value.toString();
+    }
 
     if (updateCountDownTimer) {
       this.timerCountdownEl.textContent = value.toString() +
