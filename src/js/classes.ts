@@ -26,7 +26,9 @@ function addClass(el: HTMLElement, className: string) {
   if (el.classList) {
     el.classList.add(className);
   } else {
-    el.className += ' ' + className;
+    if (!hasClass(el, className)) {
+      el.className += ' ' + className;
+    }
   }
 }
 
