@@ -13,11 +13,16 @@ RUN pip3 install -U pip
 
 RUN pip3 --no-cache-dir install \
         tensorflow-gpu \
-        tensorflowjs
+        h5py==2.7.1 \
+        keras==2.1.4 \
+        numpy==1.14.1 \
+        six==1.11.0
 
 WORKDIR /
 
-RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git
+RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git --branch r1.7
+
+RUN git clone --depth 1 https://github.com/tensorflow/tfjs-converter.git --branch v0.1.2
 
 CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
         --image_dir /data/images \
@@ -25,6 +30,10 @@ CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
         --architecture mobilenet_0.25_224 \
         --output_labels /data/output_labels.txt \
         --saved_model_dir /data/saved_model && \
+    cd /tfjs-converter/python && \
+    # Removing arithmetic optimizer to keep Reshape op according to
+    # https://github.com/tensorflow/tfjs/issues/85
+    sed -i -e "s/'arithmetic', //g" tensorflowjs/converters/tf_saved_model_conversion.py && \
     python3 -m tensorflowjs.converters.converter \
         --input_format=tf_saved_model \
         --output_node_names='final_result' \
