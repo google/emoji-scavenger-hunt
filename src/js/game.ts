@@ -16,6 +16,7 @@
  * =============================================================================
  */
 
+import 'babel-polyfill';
 import {MobileNet} from './mobilenet';
 import {camera, VIDEO_PIXELS} from './camera';
 import {VIEWS, ui, GAME_STRINGS} from './ui';
@@ -189,9 +190,12 @@ export class Game {
     // Calls to window.speechSynthesis.getVoices() are async hence we call our
     // function that sets speaking voices from within the onvoiceschanged event
     // again to ensure we have all voices loaded before setting them.
-    this.setupSpeakVoice();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = this.setupSpeakVoice.bind(this);
+    if (window.speechSynthesis) {
+      this.setupSpeakVoice();
+
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = this.setupSpeakVoice.bind(this);
+      }
     }
 
     share.initShareElements();
@@ -416,6 +420,7 @@ export class Game {
         ui.showCountdown();
       }).catch(error => {
         ui.startGameBtn.style.display = 'none';
+        ui.ageDisclaimerMsgEl.style.display = 'none';
         ui.hideView(VIEWS.LOADING);
 
         // iOS does not provide access to mediaDevices.getUserMedia via

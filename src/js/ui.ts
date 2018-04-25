@@ -16,6 +16,7 @@
  * =============================================================================
  */
 
+ import 'babel-polyfill';
 import {game, GAME_START_TIME, GAME_EXTEND_TIME,
         AUDIO} from './game';
 import {addClass, removeClass} from './classes';
