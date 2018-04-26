@@ -17,7 +17,7 @@ RUN pip3 --no-cache-dir install \
 
 WORKDIR /
 
-RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git
+RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git --branch r1.7
 
 CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
         --image_dir /data/images \
