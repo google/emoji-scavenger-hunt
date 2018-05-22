@@ -921,6 +921,13 @@ body {
     padding: 10px;
   }
 
+  &__fps {
+    position: fixed;
+    right: 0;
+    top: 115px;
+    z-index: 99;
+  }
+
   &__desktop-msg {
     display: none;
     color: $c-white;
