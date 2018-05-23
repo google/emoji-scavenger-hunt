@@ -86,7 +86,8 @@ const SELECTORS = {
   LANDING_DESKTOP_MSG_EL: '.view__landing__desktop-msg--js',
   LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js',
   LANDING_INFO_MSG_EL: '.view__landing__intro--js',
-  AGE_DISCLAIMER_MSG_EL: '.view__landing__age-msg--js'
+  AGE_DISCLAIMER_MSG_EL: '.view__landing__age-msg--js',
+  CAMERA_FPS_EL: '.view__camera__fps--js'
 };
 
 const CSS_CLASSES = {
@@ -148,6 +149,7 @@ export class Ui {
   landingPlatformMsgEl: HTMLElement;
   landingInfoMsgEl: HTMLElement;
   ageDisclaimerMsgEl: HTMLElement;
+  cameraFPSEl: HTMLElement;
   sleuthSpeakingPrefixes: Array<string>;
   activeView: string;
   prevActiveView: string;
@@ -214,6 +216,7 @@ export class Ui {
         document.querySelector(SELECTORS.LANDING_INFO_MSG_EL);
     this.ageDisclaimerMsgEl =
         document.querySelector(SELECTORS.AGE_DISCLAIMER_MSG_EL);
+    this.cameraFPSEl = document.querySelector(SELECTORS.CAMERA_FPS_EL);
 
     this.sleuthSpeakingPrefixes = [
       'Is that a ',
