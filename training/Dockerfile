@@ -1,4 +1,4 @@
-FROM gcr.io/tensorflow/tensorflow
+FROM tensorflow/tensorflow
 
 LABEL maintainer="Shuhei Iitsuka <tushuhei@google.com>"
 
