@@ -74,9 +74,14 @@ They are SavedModel files in a web-friendly format converted by the
 You can build your own game using your own custom image recognition model by replacing
 the corresponding files under the `dist/model/` directory with the newly generated ones.
 
-The training script also generates `scavenger_classes.ts` for your custom model.
-Replace `src/js/scavenger_classes.ts` with it and build the app to run the game
-based on your custom model.
+The training script will also generate a file called `scavenger_classes.ts`
+which works in conjunction with your generated custom model.
+You need to replace the file at `src/js/scavenger_classes.ts` with this newly
+generated `scavenger_classes.ts` file so that the labels of your model match
+with the trained data.
+After replacing the file you can run the build script normally to test your
+model in a browser. See the README file for information on running a preview
+server.
 
 Update the game logic in `src/js/game.ts` if needed.
 
