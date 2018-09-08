@@ -87,7 +87,8 @@ const SELECTORS = {
   LANDING_PLATFORM_MSG_EL: '.view__landing__platform-msg--js',
   LANDING_INFO_MSG_EL: '.view__landing__intro--js',
   AGE_DISCLAIMER_MSG_EL: '.view__landing__age-msg--js',
-  CAMERA_FPS_EL: '.view__camera__fps--js'
+  CAMERA_FPS_EL: '.view__camera__fps--js',
+  LANG_SELECTOR_EL: '.view__landing__lang-selector',
 };
 
 const CSS_CLASSES = {
@@ -150,6 +151,7 @@ export class Ui {
   landingInfoMsgEl: HTMLElement;
   ageDisclaimerMsgEl: HTMLElement;
   cameraFPSEl: HTMLElement;
+  langSelectorEl: HTMLElement;
   sleuthSpeakingPrefixes: Array<string>;
   activeView: string;
   prevActiveView: string;
@@ -217,6 +219,7 @@ export class Ui {
     this.ageDisclaimerMsgEl =
         document.querySelector(SELECTORS.AGE_DISCLAIMER_MSG_EL);
     this.cameraFPSEl = document.querySelector(SELECTORS.CAMERA_FPS_EL);
+    this.langSelectorEl = document.querySelector(SELECTORS.LANG_SELECTOR_EL);
 
     this.sleuthSpeakingPrefixes = [
       'Is that a ',
@@ -396,6 +399,13 @@ export class Ui {
           });
         });
       }
+    }
+
+    if (this.langSelectorEl) {
+      this.langSelectorEl.addEventListener('change', (e) => {
+        let url = (<HTMLInputElement>e.target).value;
+        window.location.href = url;
+      });
     }
   }
 

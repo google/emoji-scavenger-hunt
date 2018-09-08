@@ -407,6 +407,10 @@ body {
     font-size: 11px;
     line-height: 18px;
     max-width: 330px;
+
+    &__privacy-link {
+      color: $c-white;
+    }
   }
 
   &__platform-msg {
@@ -446,15 +450,6 @@ body {
     }
   }
 
-  &__privacy-link {
-    bottom: 12px;
-    color: $c-white;
-    font-size: 14px;
-    position: absolute;
-    right: 14px;
-    text-decoration: none;
-  }
-
   &.not-supported {
     .view__landing__logo {
       width: 190px;
@@ -468,7 +463,35 @@ body {
     .play-btn {
       display: none;
     }
+  }
 
+  &__lang-selector-icon {
+    bottom: 20px;
+    position: absolute;
+    right: 130px;
+  }
+
+  &__lang-selector {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M7 10l5 5 5-5z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: 100% 50%;
+    border: none;
+    bottom: 10px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 26px;
+    padding: 10px 10px 10px 40px;
+    position: absolute;
+    right: 10px;
+    width: 150px;
+
+    @include bp(s) {
+      font-size: 18px;
+    }
   }
 }
 
