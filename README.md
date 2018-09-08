@@ -65,7 +65,7 @@ $ docker run -v /path/to/data:/data -it model-builder
 After the training is completed, you'll see three files in the
 `data/saved_model_web` directory:
 
-- web_model.pb (the dataflow graph)
+- tensorflowjs_model.pb (the dataflow graph)
 - weights_manifest.json (weight manifest file)
 - group1-shard\*of\* (collection of binary weight files)
 
