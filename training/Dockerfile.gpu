@@ -31,7 +31,7 @@ CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
     awk '{print NR-1  ": '\''" $0 "'\'',"}' /data/output_labels.txt >> /data/scavenger_classes.ts && \
     echo '}' >> /data/scavenger_classes.ts && \
     # Installing tensorflowjs package after training since it may overwrite the GPU version of TensorFlow.
-    pip3 --no-cache-dir install tensorflowjs && \
+    pip3 --no-cache-dir install tensorflowjs==0.8.6 && \
     python3 -m tensorflowjs.converters.converter \
         --input_format=tf_saved_model \
         --output_node_names='final_result' \

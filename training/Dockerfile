@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow
+FROM tensorflow/tensorflow:latest-py3
 
 LABEL maintainer="Shuhei Iitsuka <tushuhei@google.com>"
 
@@ -11,7 +11,7 @@ RUN apt-get update && \
 
 RUN pip3 install -U pip
 
-RUN pip3 --no-cache-dir install tensorflowjs
+RUN pip3 --no-cache-dir install tensorflowjs==0.8.6
 
 WORKDIR /
 
