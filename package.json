@@ -22,7 +22,7 @@
     "browserify": "^16.2.3",
     "browserify-shim": "^3.8.14",
     "concurrently": "^5.1.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.13.1",
     "stats.js": "^0.17.0",
