@@ -194,3 +194,4 @@ skip_files:
 - ^\.git.*
 - ^\.tmp/.*
 - ^training/.*
+- ^.DS_Store
