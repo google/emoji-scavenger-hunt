@@ -15,9 +15,9 @@ RUN pip3 --no-cache-dir install tensorflowjs==0.8.6
 
 WORKDIR /
 
-RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git --branch r1.7
+RUN git clone --depth 1 https://github.com/tensorflow/hub --branch r0.5
 
-CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
+CMD python3 /hub/examples/image_retraining/retrain.py \
         --image_dir /data/images \
         --how_many_training_steps=4000 \
         --eval_step_interval=100 \
