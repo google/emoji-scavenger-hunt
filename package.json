@@ -24,7 +24,7 @@
     "concurrently": "^5.1.0",
     "lodash": "^4.17.21",
     "mkdirp": "^0.5.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "stats.js": "^0.17.0",
     "tsify": "^3.0.4",
     "tslint": "^5.16.0",
