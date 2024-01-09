@@ -13,9 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-runtime: python27
-api_version: 1
-threadsafe: true
+runtime: python312
 instance_class: F4_1G
 
 handlers:
@@ -184,14 +182,3 @@ handlers:
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
         *.gstatic.com;
-
-skip_files:
-- ^.*node_modules(/.*)?
-- ^src.*
-- ^web.*
-- ^.*\.pyc$
-- ^.*\.map$
-- ^\.git.*
-- ^\.tmp/.*
-- ^training/.*
-- ^.DS_Store
