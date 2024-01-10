@@ -43,23 +43,6 @@ interface CameraDimentions {
   [index: number]: number;
 }
 
-export interface Sleuths {
-  [index: string]: string;
-}
-
-export interface SleuthVoices {
-  [index: string]: SpeechSynthesisVoice|null;
-}
-
-const SLEUTHS: Array<Sleuths> = [
-  {
-    'nonGoogleVoice': 'Samantha',
-    'googleVoice': document.documentElement.lang === 'ja' ?
-      'Google 日本語' : 'Google US English',
-    'emoji': '/img/emojis/ui/sleuth.svg',
-  }
-];
-
 export interface AudioSources {
   [index: string]: HTMLAudioElement;
 }
@@ -119,8 +102,7 @@ export class Game {
    */
   topItemGuess: string;
   audioSources: AudioSources;
-  sleuth: Sleuths;
-  sleuthVoice: SleuthVoices;
+
   /** An array of snapshots taken when the model finds an emoji. */
   endGamePhotos: Array<HTMLImageElement>;
   demoMode = false;
@@ -139,12 +121,6 @@ export class Game {
     this.emojisFound = [];
     this.endGamePhotos = [];
     this.topItemGuess = null;
-    this.sleuth = shuffle(SLEUTHS)[0];
-    this.sleuthVoice = {
-      'nonGoogleVoice': null,
-      'googleVoice': null,
-      'activeVoice': null
-    };
 
     this.emojiLvl1 = shuffle(EMOJIS_LVL_1);
     this.emojiLvl2 = shuffle(EMOJIS_LVL_2);
@@ -192,18 +168,6 @@ export class Game {
       this.debugMode = true;
     }
 
-    // Calls to window.speechSynthesis.getVoices() are async hence we call our
-    // function that sets speaking voices from within the onvoiceschanged event
-    // again to ensure we have all voices loaded before setting them.
-    if (window.speechSynthesis) {
-      this.setupSpeakVoice();
-
-      if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        window.speechSynthesis.onvoiceschanged =
-            this.setupSpeakVoice.bind(this);
-      }
-    }
-
     share.initShareElements();
 
   }
@@ -212,29 +176,6 @@ export class Game {
     // Sets the game emojis to use the demo emojis from EMOJIS_LVL_DEMO.
     // This set is also not shuffled and always appear in the same order.
     this.gameDifficulty = '#';
-  }
-
-  /**
-   * Gets a list of supported speechSynthesis voices on the current platform
-   * and checks support for our selected voices. If the Google US English voice
-   * is available use that, else set to our back up voice selection.
-   */
-  setupSpeakVoice() {
-    window.speechSynthesis.getVoices().filter(voice => {
-      if (voice.name === this.sleuth.nonGoogleVoice) {
-        this.sleuthVoice['nonGoogleVoice'] = voice;
-      }
-
-      if (voice.name === this.sleuth.googleVoice) {
-        this.sleuthVoice['googleVoice'] = voice;
-      }
-    });
-
-    if (this.sleuthVoice['googleVoice']) {
-      this.sleuthVoice['activeVoice'] = this.sleuthVoice['googleVoice'];
-    } else {
-      this.sleuthVoice['activeVoice'] = this.sleuthVoice['nonGoogleVoice'];
-    }
   }
 
   /**
@@ -566,9 +507,8 @@ export class Game {
   speak(msg: string) {
     if (this.topItemGuess) {
       if ('speechSynthesis' in window) {
-        let msgSpeak = new SpeechSynthesisUtterance();
-        msgSpeak.voice = this.sleuthVoice['activeVoice'];
-        msgSpeak.text = msg;
+        const msgSpeak = new SpeechSynthesisUtterance(msg);
+        msgSpeak.lang = document.documentElement.lang;
 
         speechSynthesis.speak(msgSpeak);
       }
