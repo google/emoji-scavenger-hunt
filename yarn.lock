@@ -80,7 +80,7 @@
 
 "@tensorflow/tfjs-converter@0.2.1":
   version "0.2.1"
-  resolved "https://registry.npmjs.org/@tensorflow/tfjs-converter/-/tfjs-converter-0.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-converter/-/tfjs-converter-0.2.1.tgz#7aa44e84f478cf6e3823aecd878bb1ff466e4078"
   integrity sha512-pZM++mP4Guf0HZkeE7tLYJwre4ish8vGMcIREDXFU+XKb2N0wQPsw/b0YAPkAfFJnjbu3+PHI0KlQtaWeuVywQ==
   dependencies:
     "@types/long" "~3.0.32"
@@ -88,7 +88,7 @@
 
 "@tensorflow/tfjs-core@0.9.0":
   version "0.9.0"
-  resolved "https://registry.npmjs.org/@tensorflow/tfjs-core/-/tfjs-core-0.9.0.tgz"
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-core/-/tfjs-core-0.9.0.tgz#7e4b37e0c444c95abc8579d0a22b4f7d59c4248b"
   integrity sha512-4gBalOlZGIviAHmVomoUda3Iv1mWYQAU0u7XSIXKpIb4Hip+V/iyW0nepIkGB5HG0oHXjC/rXmQSvwIBOKw95g==
   dependencies:
     seedrandom "~2.4.3"
@@ -1580,9 +1580,9 @@ process@~0.11.0:
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
 
 protobufjs@~6.8.0:
-  version "6.8.8"
-  resolved "https://registry.npmjs.org/protobufjs/-/protobufjs-6.8.8.tgz"
-  integrity sha512-AAmHtD5pXgZfi7GMpllpO3q1Xw1OYldr+dMUlAnffGTAhqkg72WdmSY71uKBF/JuyiKs8psYbtKrhi0ASCD8qw==
+  version "6.8.9"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.8.9.tgz#0b1adbcdaa983d369c3d9108a97c814edc030754"
+  integrity sha512-j2JlRdUeL/f4Z6x4aU4gj9I2LECglC+5qR2TrWb193Tla1qfdaNQTZ8I27Pt7K0Ajmvjjpft7O3KWTGciz4gpw==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
