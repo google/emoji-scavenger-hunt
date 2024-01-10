@@ -54,7 +54,8 @@ export interface SleuthVoices {
 const SLEUTHS: Array<Sleuths> = [
   {
     'nonGoogleVoice': 'Samantha',
-    'googleVoice': 'Google US English',
+    'googleVoice': document.documentElement.lang === 'ja' ?
+      'Google 日本語' : 'Google US English',
     'emoji': '/img/emojis/ui/sleuth.svg',
   }
 ];
@@ -177,6 +178,8 @@ export class Game {
 
     if (isIOS()) {
       this.audioSources[AUDIO.IOS_SPEECH_SPRITE] =
+        document.documentElement.lang === 'ja' ?
+          new Audio('/audio/ios-speech-sprite-ja.m4a') :
           new Audio('/audio/ios-speech-sprite.m4a');
     }
 

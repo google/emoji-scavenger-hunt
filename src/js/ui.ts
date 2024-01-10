@@ -23,6 +23,7 @@ import {addClass, removeClass} from './classes';
 import {camera} from './camera';
 import {share} from './share';
 import {isMobile, isIOS, isChromeIOS, getQueryParam} from './utils';
+import {CLASS_LABELS_JA} from './scavenger_classes';
 
 export const VIEWS = {
   LOADING: 'loading',
@@ -102,16 +103,26 @@ const GAME_OUTCOME = {
 };
 
 export const GAME_STRINGS = {
-  CAMERA_NO_ACCESS: 'Hey! To play you’ll need to enable camera access in ' +
-      'your browser address bar 👆. Your camera is how you’ll ' +
-      'find emojis in the real world. We won’t store any ' +
-      'images from your camera. 👍',
-  SAFARI_WEBVIEW: '🚨 To play this game, please open it directly in Safari. ' +
-      'If needed, copy/paste or type the URL into the address bar. ' +
-      'https://g.co/emojiscavengerhunt 🚨',
-  CAMERA_GENERAL_ERROR: 'It looks like your browser or device doesn’t ' +
-      'support this experiment. It’s designed to work best ' +
-      'on mobile (iOS/Safari or Android/Chrome). 😭'
+  CAMERA_NO_ACCESS: document.documentElement.lang === 'ja' ?
+    'ブラウザのアドレスバーから、カメラを許可してください。' +
+    'カメラで捉えた画像は、デバイス内のみで処理され、どこにも保存されません。' :
+    'Hey! To play you’ll need to enable camera access in ' +
+    'your browser address bar 👆. Your camera is how you’ll ' +
+    'find emojis in the real world. We won’t store any ' +
+    'images from your camera. 👍',
+  SAFARI_WEBVIEW: document.documentElement.lang === 'ja' ?
+    '🚨 遊ぶためには、 Safari で直接このページを開いてください。' +
+    'URL は https://g.co/emojikarimono です。🚨' :
+    '🚨 To play this game, please open it directly in Safari. ' +
+    'If needed, copy/paste or type the URL into the address bar. ' +
+    'https://g.co/emojiscavengerhunt 🚨',
+  CAMERA_GENERAL_ERROR: document.documentElement.lang === 'ja' ?
+    'お使いの端末はサポートされていないようです。' +
+    'このゲームはスマートフォン (iOS/Safari または Android/Chrome)' +
+    'での利用を推奨しています。' :
+    'It looks like your browser or device doesn’t ' +
+    'support this experiment. It’s designed to work best ' +
+    'on mobile (iOS/Safari or Android/Chrome). 😭'
 };
 
 export interface ViewsListTypes {
@@ -221,7 +232,21 @@ export class Ui {
     this.cameraFPSEl = document.querySelector(SELECTORS.CAMERA_FPS_EL);
     this.langSelectorEl = document.querySelector(SELECTORS.LANG_SELECTOR_EL);
 
-    this.sleuthSpeakingPrefixes = [
+    this.sleuthSpeakingPrefixes = document.documentElement.lang === 'ja' ? [
+      'かな？',
+      'ですかねぇ？',
+      'っぽいですね',
+      'に見えます',
+      'ですよね？',
+      'のような気が',
+      'でしょうか？',
+      'に似てますね',
+      'だと思います',
+      'に見えてきました',
+      'かもしれない',
+      'かなぁ',
+      'の可能性もありますね',
+    ] : [
       'Is that a ',
       'Do I see a ',
       'Do I spy a ',
@@ -337,7 +362,8 @@ export class Ui {
     if (this.closeAboutBtn) {
       this.closeAboutBtn.addEventListener('click', () => {
         this.hideView(VIEWS.ABOUT);
-        history.replaceState({page: '/'}, 'Emoji Scavenger Hunt', '/');
+        const path = document.documentElement.lang === 'ja' ? '/ja/' : '/';
+        history.replaceState({page: 'home'}, 'Emoji Scavenger Hunt', path);
       });
     }
 
@@ -386,6 +412,11 @@ export class Ui {
    * @returns The sleuth found message display string.
    */
   get sleuthSpeakingFoundItMsg(): string {
+    if (document.documentElement.lang === 'ja') {
+      return `やったね！ <img class="view__sleuth__speaking__emoji"` +
+             `src="${game.currentEmoji.path}"` +
+             `alt="${game.currentEmoji.emoji} icon"/>\u00A0 を見つけました！`;
+    }
     return `Hey you found <img class="view__sleuth__speaking__emoji"` +
            `src="${game.currentEmoji.path}"` +
            `alt="${game.currentEmoji.emoji} icon"/>\u00A0!`;
@@ -397,7 +428,9 @@ export class Ui {
    * @returns The sleuth found message speak string.
    */
   get sleuthSpeakingFoundItMsgEmojiName(): string {
-    return `Hey you found ${game.currentEmoji.name}\u00A0!`;
+    return document.documentElement.lang === 'ja' ?
+           `${CLASS_LABELS_JA[game.currentEmoji.name]} を見つけました！` :
+           `Hey you found ${game.currentEmoji.name}\u00A0!`;
   }
 
   /**
@@ -406,7 +439,9 @@ export class Ui {
    * @returns You found X items message string.
    */
   get sleuthSpeakingFoundXMsg(): string {
-    return `Nice job. You found ${game.score.toString()} ` +
+    return document.documentElement.lang === 'ja' ?
+           `やりました！${game.score.toString()} 個のアイテムを見つけました。` :
+           `Nice job. You found ${game.score.toString()} ` +
            `${game.score === 1 ? `item.` : `items.`}`;
   }
 
@@ -417,7 +452,9 @@ export class Ui {
    * @returns Your time is up message string.
    */
   get sleuthSpeakingFoundNoMsg(): string {
-    return 'Oh no! Your time is up.';
+    return document.documentElement.lang === 'ja' ?
+           '残念！時間切れです。' :
+           'Oh no! Your time is up.';
   }
 
   /**
@@ -426,7 +463,9 @@ export class Ui {
    * @returns You did it message string.
    */
   get sleuthSpeakingFoundAllMsg(): string {
-    return 'You did it!';
+    return document.documentElement.lang === 'ja' ?
+           'やりましたね！' :
+           'You did it!';
   }
 
   /**
@@ -438,7 +477,10 @@ export class Ui {
   get sleuthSpeakingSeeingMsg(): string {
     let randomIndex = Math.floor(this.sleuthSpeakingPrefixes.length *
         Math.random());
-    return this.sleuthSpeakingPrefixes[randomIndex] +
+    return document.documentElement.lang === 'ja' ?
+           CLASS_LABELS_JA[game.topItemGuess.toString()] +
+           this.sleuthSpeakingPrefixes[randomIndex] :
+           this.sleuthSpeakingPrefixes[randomIndex] +
            game.topItemGuess.toString() + ' ?';
   }
 
@@ -470,7 +512,8 @@ export class Ui {
 
     if (updateCountDownTimer) {
       this.timerCountdownEl.textContent = value.toString() +
-          `${game.timer === 1 ? ` second.` : ` seconds.`}`;
+        (document.documentElement.lang === 'ja' ? '' :
+          `${game.timer === 1 ? ` second.` : ` seconds.`}`);
     }
   }
 
@@ -548,10 +591,11 @@ export class Ui {
    * Updates the win and end screen UI elements with the amount of emojis found.
    */
   setNrEmojisFound() {
-    this.nrEmojisFoundEl.textContent =
-        `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
-    this.nrMaxEmojisFoundEl.textContent =
-    `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
+    const content = document.documentElement.lang === 'ja' ?
+      `${game.score.toString()} 個のアイテム` :
+      `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
+    this.nrEmojisFoundEl.textContent = content;
+    this.nrMaxEmojisFoundEl.textContent = content;
   }
 
   /**
