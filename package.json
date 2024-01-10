@@ -11,7 +11,7 @@
     "js-watch": "watchify src/js/index.ts -p [tsify] -o dist/js/bundle.js -v --debug",
     "js-build": "browserify src/js/index.ts -p [tsify] -o dist/js/bundle.js",
     "js-compress": "uglifyjs dist/js/bundle.js -c -m -o dist/js/bundle.js",
-    "dev:server": "python -m http.server -d dist",
+    "dev:server": "python -m http.server -d dist 3000",
     "build": "concurrently \"yarn sass-build\" \"yarn js-build && yarn js-compress\"",
     "dev": "concurrently \"yarn sass-watch\" \"yarn js-watch\" \"yarn dev:server\"",
     "lint": "tslint -p . -t verbose"
