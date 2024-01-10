@@ -295,11 +295,6 @@ export class Ui {
           game.setupAudioSources();
         }
         game.initGame();
-
-        (<any>window).gtag('event', 'Click', {
-          'event_category': 'Button',
-          'event_label': 'Let\'s Play'
-        });
       });
     }
 
@@ -308,11 +303,6 @@ export class Ui {
       for (const item of Array.from(this.replayGameBtns)) {
         item.addEventListener('click', () => {
           game.restartGame();
-
-          (<any>window).gtag('event', 'Click', {
-            'event_category': 'Button',
-            'event_label': 'Play Again'
-          });
         });
       }
     }
@@ -326,11 +316,6 @@ export class Ui {
       this.cameraQuitBtn.addEventListener('click', () => {
         game.pauseGame();
         this.showView(VIEWS.QUIT);
-
-        (<any>window).gtag('event', 'Click', {
-          'event_category': 'Link',
-          'event_label': 'Quit (in-game)'
-        });
       });
     }
 
@@ -346,11 +331,6 @@ export class Ui {
         game.resetGame();
         this.hideView(VIEWS.QUIT);
         this.showView(VIEWS.LANDING);
-
-        (<any>window).gtag('event', 'Click', {
-          'event_category': 'Link',
-          'event_label': 'Quit (confirm)'
-        });
       });
     }
 
@@ -378,11 +358,6 @@ export class Ui {
           }
 
           this.showView(VIEWS.LANDING);
-
-          (<any>window).gtag('event', 'Click', {
-            'event_category': 'Icon',
-            'event_label': 'Home'
-          });
         });
       }
     }
@@ -393,10 +368,6 @@ export class Ui {
           this.showView(VIEWS.ABOUT);
           history.pushState({page: 'about'}, 'Emoji Scavenger Hunt - About',
               '?about=true');
-          (<any>window).gtag('event', 'Click', {
-            'event_category': 'Icon',
-            'event_label': 'About'
-          });
         });
       }
     }
@@ -639,11 +610,6 @@ export class Ui {
 
     this.emojisFoundListEl.appendChild(photoContainer.cloneNode(true));
     this.emojisMaxFoundListEl.appendChild(photoContainer);
-
-    (<any>window).gtag('event', `${screen}`, {
-      'event_category': 'Game',
-      'event_label': `${emojiFoundString}`
-    });
 
     // Also update the twitter sharing links with the list of emojis
     share.setTwitterShareLinks(emojiFoundString);
