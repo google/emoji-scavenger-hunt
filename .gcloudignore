@@ -1,0 +1,8 @@
+*.map
+*.pyc
+.DS_Store
+.git/
+node_modules/
+src/
+training/
+package-lock.json
