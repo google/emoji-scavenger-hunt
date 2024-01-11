@@ -584,11 +584,6 @@ export class Game {
       window.clearInterval(this.timerInterval);
       window.clearInterval(this.speakInterval);
 
-      (<any>window).gtag('event', 'Failure', {
-        'event_category': 'Emoji',
-        'event_label': `${this.currentEmoji.emoji} - ${this.currentEmoji.name}`
-      });
-
       if (this.score === 0) {
         ui.showNoItemsFoundView();
       }
@@ -666,11 +661,6 @@ export class Game {
     this.currentEmoji = nextEmoji;
 
     ui.setActiveEmoji(this.currentEmoji.path);
-
-    (<any>window).gtag('event', 'Find', {
-      'event_category': 'Emoji',
-      'event_label': `${this.currentEmoji.emoji} - ${this.currentEmoji.name}`
-    });
   }
 
   /**
@@ -722,13 +712,6 @@ export class Game {
     this.playAudio(AUDIO.FOUND_IT);
 
     ui.cameraFlash();
-
-    let timeToFind = this.timerAtStartOfRound - this.timer;
-    (<any>window).gtag('event', 'Success', {
-      'event_category': 'Emoji',
-      'event_label': `${this.currentEmoji.emoji} - ${this.currentEmoji.name}`,
-      'value': timeToFind
-    });
 
     if (GAME_MAX_ITEMS === this.score) {
       ui.showAllItemsFoundView(this.endGamePhotos);
