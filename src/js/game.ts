@@ -569,6 +569,7 @@ export class Game {
         let msgSpeak = new SpeechSynthesisUtterance();
         msgSpeak.voice = this.sleuthVoice['activeVoice'];
         msgSpeak.text = msg;
+        msgSpeak.lang = document.documentElement.lang;
 
         speechSynthesis.speak(msgSpeak);
       }
