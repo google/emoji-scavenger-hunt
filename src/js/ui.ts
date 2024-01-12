@@ -473,10 +473,10 @@ export class Ui {
   get sleuthSpeakingSeeingMsg(): string {
     let randomIndex = Math.floor(this.sleuthSpeakingPrefixes.length *
         Math.random());
-    return isLangJa() ?
-           (CLASS_LABELS_JA[game.topItemGuess.toString()] +
-           this.sleuthSpeakingPrefixes[randomIndex]) :
-           (this.sleuthSpeakingPrefixes[randomIndex] +
+    return isLangJa() ? (
+           CLASS_LABELS_JA[game.topItemGuess.toString()] +
+           this.sleuthSpeakingPrefixes[randomIndex]) : (
+           this.sleuthSpeakingPrefixes[randomIndex] +
            game.topItemGuess.toString() + ' ?');
   }
 
