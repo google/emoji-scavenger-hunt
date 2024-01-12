@@ -22,7 +22,7 @@ import {game, GAME_START_TIME, GAME_EXTEND_TIME,
 import {addClass, removeClass} from './classes';
 import {camera} from './camera';
 import {share} from './share';
-import {isMobile, isIOS, isChromeIOS, getQueryParam} from './utils';
+import {isMobile, isIOS, isChromeIOS, getQueryParam, isLangJa} from './utils';
 import {CLASS_LABELS_JA} from './scavenger_classes';
 
 export const VIEWS = {
@@ -103,20 +103,20 @@ const GAME_OUTCOME = {
 };
 
 export const GAME_STRINGS = {
-  CAMERA_NO_ACCESS: document.documentElement.lang === 'ja' ?
+  CAMERA_NO_ACCESS: isLangJa() ?
     'ブラウザのアドレスバーから、カメラを許可してください。' +
     'カメラで捉えた画像は、デバイス内のみで処理され、どこにも保存されません。' :
     'Hey! To play you’ll need to enable camera access in ' +
     'your browser address bar 👆. Your camera is how you’ll ' +
     'find emojis in the real world. We won’t store any ' +
     'images from your camera. 👍',
-  SAFARI_WEBVIEW: document.documentElement.lang === 'ja' ?
+  SAFARI_WEBVIEW: isLangJa() ?
     '🚨 遊ぶためには、 Safari で直接このページを開いてください。' +
     'URL は https://g.co/emojikarimono です。🚨' :
     '🚨 To play this game, please open it directly in Safari. ' +
     'If needed, copy/paste or type the URL into the address bar. ' +
     'https://g.co/emojiscavengerhunt 🚨',
-  CAMERA_GENERAL_ERROR: document.documentElement.lang === 'ja' ?
+  CAMERA_GENERAL_ERROR: isLangJa() ?
     'お使いの端末はサポートされていないようです。' +
     'このゲームはスマートフォン (iOS/Safari または Android/Chrome)' +
     'での利用を推奨しています。' :
@@ -232,7 +232,7 @@ export class Ui {
     this.cameraFPSEl = document.querySelector(SELECTORS.CAMERA_FPS_EL);
     this.langSelectorEl = document.querySelector(SELECTORS.LANG_SELECTOR_EL);
 
-    this.sleuthSpeakingPrefixes = document.documentElement.lang === 'ja' ? [
+    this.sleuthSpeakingPrefixes = isLangJa() ? [
       'かな？',
       'ですかねぇ？',
       'っぽいですね',
@@ -362,7 +362,7 @@ export class Ui {
     if (this.closeAboutBtn) {
       this.closeAboutBtn.addEventListener('click', () => {
         this.hideView(VIEWS.ABOUT);
-        const path = document.documentElement.lang === 'ja' ? '/ja/' : '/';
+        const path = isLangJa() ? '/ja/' : '/';
         history.replaceState({page: 'home'}, 'Emoji Scavenger Hunt', path);
       });
     }
@@ -412,7 +412,7 @@ export class Ui {
    * @returns The sleuth found message display string.
    */
   get sleuthSpeakingFoundItMsg(): string {
-    if (document.documentElement.lang === 'ja') {
+    if (isLangJa()) {
       return `やったね！ <img class="view__sleuth__speaking__emoji"` +
              `src="${game.currentEmoji.path}"` +
              `alt="${game.currentEmoji.emoji} icon"/>\u00A0 を見つけました！`;
@@ -428,7 +428,7 @@ export class Ui {
    * @returns The sleuth found message speak string.
    */
   get sleuthSpeakingFoundItMsgEmojiName(): string {
-    return document.documentElement.lang === 'ja' ?
+    return isLangJa() ?
            `${CLASS_LABELS_JA[game.currentEmoji.name]} を見つけました！` :
            `Hey you found ${game.currentEmoji.name}\u00A0!`;
   }
@@ -439,7 +439,7 @@ export class Ui {
    * @returns You found X items message string.
    */
   get sleuthSpeakingFoundXMsg(): string {
-    return document.documentElement.lang === 'ja' ?
+    return isLangJa() ?
            `やりました！${game.score.toString()} 個のアイテムを見つけました。` :
            `Nice job. You found ${game.score.toString()} ` +
            `${game.score === 1 ? `item.` : `items.`}`;
@@ -452,9 +452,7 @@ export class Ui {
    * @returns Your time is up message string.
    */
   get sleuthSpeakingFoundNoMsg(): string {
-    return document.documentElement.lang === 'ja' ?
-           '残念！時間切れです。' :
-           'Oh no! Your time is up.';
+    return isLangJa() ? '残念！時間切れです。' : 'Oh no! Your time is up.';
   }
 
   /**
@@ -463,9 +461,7 @@ export class Ui {
    * @returns You did it message string.
    */
   get sleuthSpeakingFoundAllMsg(): string {
-    return document.documentElement.lang === 'ja' ?
-           'やりましたね！' :
-           'You did it!';
+    return isLangJa() ? 'やりましたね！' : 'You did it!';
   }
 
   /**
@@ -477,11 +473,11 @@ export class Ui {
   get sleuthSpeakingSeeingMsg(): string {
     let randomIndex = Math.floor(this.sleuthSpeakingPrefixes.length *
         Math.random());
-    return document.documentElement.lang === 'ja' ?
-           CLASS_LABELS_JA[game.topItemGuess.toString()] +
-           this.sleuthSpeakingPrefixes[randomIndex] :
-           this.sleuthSpeakingPrefixes[randomIndex] +
-           game.topItemGuess.toString() + ' ?';
+    return isLangJa() ?
+           (CLASS_LABELS_JA[game.topItemGuess.toString()] +
+           this.sleuthSpeakingPrefixes[randomIndex]) :
+           (this.sleuthSpeakingPrefixes[randomIndex] +
+           game.topItemGuess.toString() + ' ?');
   }
 
   /**
@@ -512,8 +508,7 @@ export class Ui {
 
     if (updateCountDownTimer) {
       this.timerCountdownEl.textContent = value.toString() +
-        (document.documentElement.lang === 'ja' ? '' :
-          `${game.timer === 1 ? ` second.` : ` seconds.`}`);
+        (isLangJa() ? '' : `${game.timer === 1 ? ` second.` : ` seconds.`}`);
     }
   }
 
@@ -591,7 +586,7 @@ export class Ui {
    * Updates the win and end screen UI elements with the amount of emojis found.
    */
   setNrEmojisFound() {
-    const content = document.documentElement.lang === 'ja' ?
+    const content = isLangJa() ?
       `${game.score.toString()} 個のアイテム` :
       `${game.score.toString()} ${game.score === 1 ? `item` : `items`}`;
     this.nrEmojisFoundEl.textContent = content;

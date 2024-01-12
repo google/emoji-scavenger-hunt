@@ -16,6 +16,8 @@
  * =============================================================================
  */
 
+import {isLangJa} from './utils';
+
 const SELECTORS = {
   SHARE_LINK_EL: '.social-share-link',
   SHARE_LINK_ALL_ITEMS_TWITTER: '.view__found-all-items__social__tritter--js',
@@ -63,7 +65,7 @@ export class Share {
    */
   setTwitterShareLinks(emojiList: string) {
     let encodedEmojiList = encodeURIComponent(emojiList);
-    const shareHref = document.documentElement.lang === 'ja' ? (
+    const shareHref = isLangJa() ? (
       `https://twitter.com/intent/tweet?text=${encodedEmojiList}を発見しました！` +
       'あなたは何個見つけられるかな？さっそくプレイしてみよう！' +
       '&hashtags=AIExperiments,tensorflowjs') : (
