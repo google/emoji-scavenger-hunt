@@ -48,6 +48,7 @@
     "shell-quote": "^1.7.3",
     "cached-path-relative": "^1.1.0",
     "browserify-sign": "^4.2.2",
-    "minimatch": "^3.0.5"
+    "minimatch": "^3.0.5",
+    "path-parse": "^1.0.7"
   }
 }
