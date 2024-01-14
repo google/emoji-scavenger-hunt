@@ -22,7 +22,7 @@ import {MobileNet} from './mobilenet';
 import {camera, VIDEO_PIXELS} from './camera';
 import {VIEWS, ui, GAME_STRINGS} from './ui';
 import {share} from './share';
-import {getQueryParam, isIOS} from './utils';
+import {getQueryParam, isIOS, isLangJa} from './utils';
 import {shuffle} from 'lodash';
 import * as tfc from '@tensorflow/tfjs-core';
 import {SPEECH_SPRITE_TIMESTAMPS} from './speech_sprite_timestamps';
@@ -54,7 +54,7 @@ export interface SleuthVoices {
 const SLEUTHS: Array<Sleuths> = [
   {
     'nonGoogleVoice': 'Samantha',
-    'googleVoice': 'Google US English',
+    'googleVoice': isLangJa() ? 'Google 日本語' : 'Google US English',
     'emoji': '/img/emojis/ui/sleuth.svg',
   }
 ];
@@ -176,7 +176,8 @@ export class Game {
     };
 
     if (isIOS()) {
-      this.audioSources[AUDIO.IOS_SPEECH_SPRITE] =
+      this.audioSources[AUDIO.IOS_SPEECH_SPRITE] = isLangJa() ?
+          new Audio('/audio/ios-speech-sprite-ja.m4a') :
           new Audio('/audio/ios-speech-sprite.m4a');
     }
 
@@ -566,6 +567,7 @@ export class Game {
         let msgSpeak = new SpeechSynthesisUtterance();
         msgSpeak.voice = this.sleuthVoice['activeVoice'];
         msgSpeak.text = msg;
+        msgSpeak.lang = isLangJa() ? 'ja' : 'en';
 
         speechSynthesis.speak(msgSpeak);
       }

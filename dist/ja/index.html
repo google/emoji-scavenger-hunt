@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="lD484N--aDigkknKdhFozMC6Iyhydvzv5reMGNpgleI" />
+    <link rel="canonical" href="https://emojiscavengerhunt.withgoogle.com/ja/">
+    <title>Emoji Scavenger Hunt</title>
+    <meta name="description" content="お題の絵文字を、カメラでさがしてみよう。制限時間内に見つけられるかな？" />
+
+    <meta itemprop="name" content="Emoji Scavenger Hunt" />
+    <meta itemprop="description" content="お題の絵文字を、カメラでさがしてみよう。制限時間内に見つけられるかな？" />
+    <meta itemprop="image" content="https://emojiscavengerhunt.withgoogle.com/img/share.jpg" />
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon-152.png">
+    <link rel="shortcut icon" sizes="192x192" href="/img/favicon-192.png">
+
+    <meta property="og:title" content="Emoji Scavenger Hunt" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://emojiscavengerhunt.withgoogle.com/ja/" />
+    <meta property="og:image" content="https://emojiscavengerhunt.withgoogle.com/img/share.jpg" />
+    <meta property="og:description" content="お題の絵文字を、カメラでさがしてみよう。制限時間内に見つけられるかな？" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@google" />
+    <meta name="twitter:title" content="Emoji Scavenger Hunt" />
+    <meta name="twitter:description" content="お題の絵文字を、カメラでさがしてみよう。制限時間内に見つけられるかな？" />
+    <meta name="twitter:image" content="https://emojiscavengerhunt.withgoogle.com/img/share.jpg" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC:700|Roboto:300,400|Changa+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:300|M+PLUS+1p:900&amp;subset=japanese">
+    <link rel="stylesheet" href="/css/main.min.css">
+  </head>
+  <body>
+    <div class="views">
+      <div class="view__loading view__loading--js">
+        <img class="view__loading__icon" src="/img/loading.gif" alt="Loading magnifying glass">
+        <p class="views__heading view__loading__heading">読み込み中...</p>
+      </div>
+
+      <div class="view__quit view__quit--js">
+        <p class="views__heading view__quit__heading">終了しますか？</p>
+        <button class="btn cancel-btn quit-cancel-btn--js">キャンセル</button>
+        <button class="btn quit-btn quit-btn--js">終了</button>
+      </div>
+
+      <div class="view__about view__about--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__close-btn view__info-bar__close-btn--js">
+            <img src="/img/emojis/ui/crossmark.svg" alt="Close icon">
+          </button>
+        </div>
+        <div class="view__about__body">
+          <div class="view__about__video-container">
+            <iframe src="https://www.youtube.com/embed/jr3q_9pJBr8?rel=0&amp;showinfo=0&amp;controls=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <p class="views__heading view__about__heading">このゲームについて 🤳</p>
+          <p>
+            Emoji Scavenger Hunt（絵文字借り物競走） は、スマートフォンのカメラで写したものを推測するニューラルネットワークを利用したブラウザーゲームです。
+          </p>
+          <p>
+            <a href="https://js.tensorflow.org" target="_blank">Tensorflow.js</a> を利用して、携帯端末のブラウザ上で機械学習の推論を行います。
+            カメラで捉えられた画像は、どこかに保存されたり、サーバーに送られることはありません。
+          </p>
+          <p>
+            このプロジェクトがどのようにして作られたかを知るには上のビデオを参照してください。また、 <a href="https://github.com/google/emoji-scavenger-hunt/" target="_blank">GitHub 上でオープンソースのコード</a> から、どのように動いているかを学ぶこともできます。AI の似たような応用例は <a href="https://experiments.withgoogle.com/ai" target="_blank">A.I. Experiment</a> で公開中です。
+          </p>
+          <p>このエクスペリメント（実験）は、Google の Brand Studio と PAIR チームによって作られました。</p>
+
+          <p class="views__heading view__about__heading">よくある質問 🙋</p>
+          <p><strong>- 私のスマートフォンでは動きません</strong></p>
+          <p>このプロジェクトは実験的なものであり、最新のウェブテクノロジーを使って作られています。そのため、最新のバージョンの Chrome を搭載した Android 端末や、最新の iOS を搭載した iPhone の Safari で快適に楽しめるように設計されています。</p>
+
+          <p><strong>- どうして認識できないものがあるの？</strong></p>
+          <p>エクスペリメントなので、完璧じゃないんです。何を認識できて何を認識できないかを考えてみると、機械学習がどのように動いているか理解できるかもしれません。</p>
+
+          <p><strong>- カメラで捉えた画像は Google に送られるの？</strong></p>
+          <p>いいえ。あなたのデバイス内で全て処理されます。コードを <a href="https://github.com/google/emoji-scavenger-hunt/" target="_blank">GitHubで公開</a> していますので、興味があれば見てみてください。</p>
+
+          <p class="views__heading  view__about__heading">コンタクト ✉️</p>
+          <p><a href="mailto:emojiscavengerhunt@google.com">メールを送る</a> または <a href="https://services.google.com/fh/files/misc/emojiscavengerhunt-presskit.zip">プレスキットをダウンロードする</a></p>
+
+          <div class="view__about__privacy">
+            <a class="view__about__privacy__ai-badge" href="https://experiments.withgoogle.com/ai" target="_blank">
+              <img src="/img/badge.svg" alt="Made with some friends at Google">
+            </a>
+            <a class="view__about__privacy__privacy-link" href="https://www.google.com/policies/" target="_blank">プライバシーポリシーと利用規約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="view__landing view__landing--js">
+        <div class="view__landing__social-icons">
+          <a class="social-share-link view__landing__social__tritter--js" href="https://twitter.com/intent/tweet?text=お題の絵文字を、カメラ%f0%9f%93%b1でさがしてみよう。制限時間内に見つけられるかな？&hashtags=AIExperiments,tensorflowjs&url=https%3A%2F%2Fg.co%2Femojikarimono">
+            <img class="social-share-icon" src="/img/twitter.svg" alt="Twitter icon">
+          </a>
+          <a class="social-share-link view__landing__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php?u=https://emojiscavengerhunt.withgoogle.com/ja/">
+            <img class="social-share-icon" src="/img/facebook.svg" alt="Facebook icon">
+          </a>
+        </div>
+        <div class="view__info-bar">
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/info.svg" alt="About icon">
+          </button>
+        </div>
+        <h1>
+          <img class="view__landing__logo" src="/img/logo.svg" alt="Emoji Scavenger Hunt">
+        </h1>
+        <p class="view__landing__intro view__landing__intro--js">
+        お題のアイテムを探してカメラをかざそう！ ニューラルネットワークがアイテムを見て判定します。<br>
+        スピーカーをオンにして楽しんでください。
+        </p>
+        <button class="btn play-btn landing__play-btn--js">あそぶ</button>
+        <p class="view__landing__desktop-msg view__landing__desktop-msg--js">スマートフォンでの利用を推奨します。</p>
+        <p class="view__landing__age-msg view__landing__age-msg--js">
+          上のボタンを押すことで、<br>13 歳以上であることに同意するものとします。<br>
+          <a class="view__landing__age-msg__privacy-link" href="https://www.google.com/policies/" target="_blank">プライバシーポリシーと利用規約</a>
+        </p>
+        <div class="view__landing__platform-msg view__landing__platform-msg--js">
+          <div class="view__landing__video-container">
+            <iframe src="https://www.youtube.com/embed/jr3q_9pJBr8?rel=0&amp;showinfo=0&amp;controls=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <p>お使いのブラウザまたはデバイスはサポートされていないようです。Android 上の Chrome または、iOS 上の Safari をお使いください。</p>
+        </div>
+        <a href="https://experiments.withgoogle.com/ai" target="_blank">
+          <img class="view__landing__ai-badge" src="/img/badge.svg" alt="Made with some friends at Google">
+        </a>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#fff" class="view__landing__lang-selector-icon">
+          <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/>
+        </svg>
+        <select class="view__landing__lang-selector">
+          <option value="/">English</option>
+          <option value="/ja/" selected>日本語</option>
+        </select>
+      </div>
+
+      <div class="view__countdown view__countdown--js">
+        <div class="view__countdown__3 view__countdown__3--js">
+          <span class="view__countdown__count">3</span>
+          <p class="view__countdown__find-msg">
+          制限時間内に、絵文字のアイテムを見つけてカメラに写してください。
+          </p>
+        </div>
+        <div class="view__countdown__2 view__countdown__2--js">
+          <span class="view__countdown__count">2</span>
+          <p class="view__countdown__find-msg">
+          制限時間内に、絵文字のアイテムを見つけてカメラに写してください。
+          </p>
+        </div>
+        <div class="view__countdown__1 view__countdown__1--js">
+          <span class="view__countdown__count">1</span>
+          <p class="view__countdown__find-msg">
+          制限時間内に、絵文字のアイテムを見つけてカメラに写してください。
+          </p>
+        </div>
+        <div class="view__countdown__0 view__countdown__0--js">
+          <p class="view__countdown__0__find"><img src="/img/emojis/ui/sleuth.svg" class="view__countdown__0__emoji view__countdown__0__emoji--js" />&nbsp;&nbsp;をさがせ</p>
+          <p class="view__countdown__0__find-time">制限時間: <span class="view__countdown__0__find-time-val--js"></span> 秒</p>
+          <p class="view__countdown__find-msg">
+          制限時間内に、絵文字のアイテムを見つけてカメラに写してください。
+          </p>
+        </div>
+      </div>
+
+      <div class="view__sleuth view__sleuth--js">
+        <img class="view__sleuth__emoji view__sleuth__emoji--js" src="/img/emojis/ui/sleuth.svg" alt="Sleuth emoji" />
+        <p class="view__sleuth__speaking view__sleuth__speaking--js"></p>
+      </div>
+
+      <div class="view__found-x-items view__found-x-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/info.svg" alt="About icon">
+          </button>
+        </div>
+        <p class="views__heading  view__found-x-items__heading"><span class="view__found-x-items__nr-found--js"></span>を見つけました！</p>
+        <div class="view__found-x-items__emojis view__found-x-items__emojis--js"></div>
+        <div class="view__found-x-items__social">
+          <p>スコアを共有</p>
+          <div class="view__found-x-items__social-icons">
+            <a class="social-share-link view__found-x-items__social__tritter--js" href="https://twitter.com/intent/tweet">
+              <img class="social-share-icon" src="/img/twitter.svg" alt="Twitter icon">
+            </a>
+            <a class="social-share-link view__found-x-items__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php">
+              <img class="social-share-icon" src="/img/facebook.svg" alt="Facebook icon">
+            </a>
+          </div>
+        </div>
+        <button class="btn play-again-btn--js">もう一度あそぶ</button>
+      </div>
+
+      <div class="view__found-all-items view__found-all-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/info.svg" alt="About icon">
+          </button>
+        </div>
+        <p class="views__heading  view__found-all-items__heading"><span class="view__found-all-items__nr-found--js"></span>を見つけました！</p>
+        <p>おめでとうございます。あなたを絵文字ハンター名人に認定します。</p>
+        <div class="view__found-all-items__emojis view__found-all-items__emojis--js"></div>
+        <div class="view__found-all-items__social">
+          <p>スコアをシェアする</p>
+          <div class="view__found-all-items__social-icons">
+            <a class="social-share-link view__found-all-items__social__tritter--js" href="https://twitter.com/intent/tweet">
+              <img class="social-share-icon" src="/img/twitter.svg" alt="Twitter icon">
+            </a>
+            <a class="social-share-link view__found-all-items__social__facebook--js" href="https://www.facebook.com/sharer/sharer.php">
+              <img class="social-share-icon" src="/img/facebook.svg" alt="Facebook icon">
+            </a>
+          </div>
+        </div>
+        <button class="btn play-again-btn--js">もう一度あそぶ</button>
+      </div>
+
+      <div class="view__found-no-items view__found-no-items--js">
+        <div class="view__info-bar">
+          <button class="view__info-bar__home-btn view__info-bar__home-btn--js" >
+            <img src="/img/emojis/ui/house.svg" alt="Home icon">
+          </button>
+          <button class="view__info-bar__about-btn view__info-bar__about-btn--js">
+            <img src="/img/emojis/ui/info.svg" alt="About icon">
+          </button>
+        </div>
+        <img class="view__found-no-items__emoji" src="/img/emojis/ui/thumbsdown.svg"/>
+        <p>何も見つけられませんでした。</p>
+        <button class="btn play-again-btn--js">もう一度あそぶ</button>
+      </div>
+
+      <div class="view__status-bar view__status-bar--js">
+        <div class="view__status-bar__find"><img src="/img/emojis/ui/sleuth.svg" class="view__status-bar__find__emoji view__status-bar__find__emoji--js" />
+          &nbsp;&nbsp;をさがせ
+        </div>
+        <div class="view__status-bar__info">
+          <img class="view__status-bar__info__emoji" src="/img/emojis/ui/trophy.svg" />
+          <span class="view__status-bar__info__score view__status-bar__info__score--js">0</span>
+          <img class="view__status-bar__info__emoji" src="/img/emojis/ui/stopwatch.svg" />
+          <div class="view__status-bar__info__timer-container">
+            <span class="view__status-bar__info__timer view__status-bar__info__timer--js"></span>
+            <span class="view__status-bar__info__timer-flash view__status-bar__info__timer-flash--js"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="view__found-item view__found-item--js">
+        <img class="view__found-item__emoji" src="/img/emojis/ui/thumbsup.svg" />
+        <p>アイテム発見！制限時間が延長されました。</p>
+        <button class="btn next-emoji-btn--js">次の絵文字へ</button>
+      </div>
+
+      <div class="view__camera view__camera--js">
+        <button class="view__camera__quit-btn view__camera__quit-btn--js">やめる</button>
+        <div class="view__camera__prediction-results view__camera__prediction-results--js"></div>
+        <div class="view__camera__fps view__camera__fps--js"></div>
+        <p class="view__camera__desktop-msg view__camera__desktop-msg--js">このゲームはスマートフォン向けに作られています。</p>
+        <div class="camera__capture-wrapper camera__capture-wrapper--js">
+          <div class="camera__capture-flash camera__capture-flash--js"></div>
+          <video class="camera__element camera__element--js" autoplay playsinline></video>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/bundle.js"></script>
+  </body>
+</html>

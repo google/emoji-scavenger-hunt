@@ -82,5 +82,14 @@ function getQueryParam(query: string) {
   }
 }
 
-export {getQueryParam, isMobile, isIOS, isAndroid, isChrome, isChromeIOS};
+/**
+ * Detects if the document language is Japanese.
+ * @returns Whether the document language is Japanese.
+ */
+function isLangJa() {
+  return document.documentElement.lang === 'ja'
+}
+
+export {getQueryParam, isMobile, isIOS, isAndroid, isChrome, isChromeIOS,
+        isLangJa};
 
