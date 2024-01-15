@@ -581,6 +581,10 @@ body {
       padding-left: 10px;
       position: relative;
       left: 20px;
+
+      &:lang(ja) {
+        left: 0;
+      }
     }
 
     &__find-time {
@@ -654,6 +658,7 @@ body {
 
     &:lang(ja) {
       font-family: 'Yusei Magic', cursive;
+      font-size: 18px;
     }
   }
 }
