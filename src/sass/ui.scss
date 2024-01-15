@@ -570,6 +570,10 @@ body {
       padding-bottom: 10px;
       text-transform: uppercase;
       -webkit-font-smoothing: antialiased;
+
+      &:lang(ja) {
+        font-size: 40px;
+      }
     }
 
     &__emoji {
@@ -646,6 +650,10 @@ body {
       border-bottom: 0;
       margin-top: -10px;
       margin-left: -10px;
+    }
+
+    &:lang(ja) {
+      font-family: 'Yusei Magic', cursive;
     }
   }
 }

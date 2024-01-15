@@ -413,9 +413,9 @@ export class Ui {
    */
   get sleuthSpeakingFoundItMsg(): string {
     if (isLangJa()) {
-      return `やったね！ <img class="view__sleuth__speaking__emoji"` +
+      return `やったね！<img class="view__sleuth__speaking__emoji"` +
              `src="${game.currentEmoji.path}"` +
-             `alt="${game.currentEmoji.emoji} icon"/>\u00A0 を見つけました！`;
+             `alt="${game.currentEmoji.emoji} icon"/>\u00A0を見つけました！`;
     }
     return `Hey you found <img class="view__sleuth__speaking__emoji"` +
            `src="${game.currentEmoji.path}"` +
