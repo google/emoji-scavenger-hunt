@@ -25,7 +25,8 @@ import {share} from './share';
 import {getQueryParam, isIOS, isLangJa} from './utils';
 import {shuffle} from 'lodash';
 import * as tfc from '@tensorflow/tfjs-core';
-import {SPEECH_SPRITE_TIMESTAMPS} from './speech_sprite_timestamps';
+import {SPEECH_SPRITE_TIMESTAMPS,
+     SPEECH_SPRITE_TIMESTAMPS_JA} from './speech_sprite_timestamps';
 import {EmojiItem, EMOJIS_LVL_1, EMOJIS_LVL_2, EMOJIS_LVL_3, EMOJIS_LVL_4,
      EMOJIS_LVL_5, EMOJIS_LVL_DEMO} from './game_levels';
 
@@ -326,10 +327,12 @@ export class Game {
    * @param key The key to look up in the sprite timestamps.
    */
   spriteSpeak(key: string) {
-    if (SPEECH_SPRITE_TIMESTAMPS.hasOwnProperty(key)) {
+    const spriteTimestamps = isLangJa() ?
+      SPEECH_SPRITE_TIMESTAMPS_JA : SPEECH_SPRITE_TIMESTAMPS;
+    if (spriteTimestamps.hasOwnProperty(key)) {
       this.playAudio(AUDIO.IOS_SPEECH_SPRITE,
-          false, SPEECH_SPRITE_TIMESTAMPS[key][0],
-          SPEECH_SPRITE_TIMESTAMPS[key][1] + .25);
+          false, spriteTimestamps[key][0],
+          spriteTimestamps[key][1] + .25);
     }
   }
 
