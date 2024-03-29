@@ -4,6 +4,8 @@ FROM tensorflow/tensorflow:1.13.1-py3
 
 LABEL maintainer="Shuhei Iitsuka <tushuhei@google.com>"
 
+RUN apt update
+
 RUN apt install -y curl
 
 RUN pip3 install -U pip
