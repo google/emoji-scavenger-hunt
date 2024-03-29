@@ -1,4 +1,6 @@
 FROM tensorflow/tensorflow:1.13.1-py3
+# Replace this line with `tensorflow/tensorflow:1.13.1-gpu-py3`
+# and run with `docker --gpus` when you use GPUs.
 
 LABEL maintainer="Shuhei Iitsuka <tushuhei@google.com>"
 
