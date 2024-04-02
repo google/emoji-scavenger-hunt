@@ -1,23 +1,24 @@
-FROM tensorflow/tensorflow:latest-py3
+FROM tensorflow/tensorflow:1.13.1-py3
+# Replace this line with `tensorflow/tensorflow:1.13.1-gpu-py3`
+# and run with `docker --gpus` when you use GPUs.
 
 LABEL maintainer="Shuhei Iitsuka <tushuhei@google.com>"
 
-RUN apt-get update && \
-    apt-get install -y git \
-        python3 \
-        python3-pip \
-        apt-utils && \
-    apt-get clean
+RUN apt update
+
+RUN apt install -y curl
 
 RUN pip3 install -U pip
 
-RUN pip3 --no-cache-dir install tensorflowjs==0.8.6
+RUN pip3 install keras==2.2.2 tensorflow_hub==0.1.1 h5py==2.8.0
+
+RUN pip3 install --no-deps tensorflowjs==0.8.6
 
 WORKDIR /
 
-RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git --branch r1.7
+RUN curl -O https://raw.githubusercontent.com/tensorflow/tensorflow/v1.7.1/tensorflow/examples/image_retraining/retrain.py
 
-CMD python3 /tensorflow/tensorflow/examples/image_retraining/retrain.py \
+CMD python3 /retrain.py \
         --image_dir /data/images \
         --how_many_training_steps=4000 \
         --eval_step_interval=100 \
