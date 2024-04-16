@@ -559,7 +559,7 @@ export class Ui {
   setSleuthSpeakerText(msg: string, msgMarkup = false) {
 
     if (msgMarkup) {
-      this.sleuthSpeakingEl.innerHTML = msg;
+      this.sleuthSpeakingEl.innerText = msg;
     } else {
       this.sleuthSpeakingEl.textContent = msg;
     }
