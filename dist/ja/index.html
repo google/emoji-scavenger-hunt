@@ -267,6 +267,12 @@
       </div>
     </div>
 
-    <script src="/js/bundle.js"></script>
+    <script>
+      var scriptUrl = "/js/bundle.js";
+      var scriptElement = document.createElement('script');
+      scriptElement.async = false;
+      scriptElement.src = scriptUrl;
+      document.body.appendChild(scriptElement);
+    </script>
   </body>
 </html>
