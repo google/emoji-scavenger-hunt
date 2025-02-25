@@ -27,22 +27,16 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
 
 - url: /model/(.*\.(pb|json))
   secure: always
@@ -54,22 +48,16 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
 
 # Static assets (anything with a file extension)
 - url: /(.*\..*)
@@ -82,22 +70,16 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
 
 # Root
 - url: /
@@ -110,22 +92,16 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
 
 # Paths with a trailing slash
 - url: /(.*\/)
@@ -138,22 +114,16 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
 
 # Paths without a trailing slash
 - url: /(.*)?
@@ -166,19 +136,13 @@ handlers:
     X-Content-Type-Options: "nosniff"
     X-XSS-Protection: "1; mode=block"
     Content-Security-Policy:
-      base-uri 'none';
+      "base-uri 'none';
       object-src 'none';
       font-src 'self'
         *.gstatic.com
         fonts.googleapis.com;
-      script-src 'self' 'unsafe-inline'
-        *.googleanalytics.com
-        *.google-analytics.com
-        *.googletagmanager.com
-        *.google.com
-        *.youtube.com
-        *.ytimg.com
-        static.doubleclick.net;
+      script-src 'unsafe-inline' 'strict-dynamic' http: https:
+        'sha256-u86hT2CFpyf1kAS+9STbX2ajNCVNH6z80kNNXy3Sb3g=';
       style-src 'self' 'unsafe-inline'
         fonts.googleapis.com
-        *.gstatic.com;
+        *.gstatic.com;"
