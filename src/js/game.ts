@@ -36,6 +36,8 @@ export const GAME_MAX_ITEMS = 10;
 const SPEAKING_DELAY = 2500; // 2.5 seconds
 const GAME_TIMER_DELAY = 1000; // 1 second
 
+const ROOT_PATH = isLangJa() ? '../' : '';
+
 export interface EmojiLevelsLookup {
   [index: string]: Array<EmojiItem>;
 }
@@ -56,7 +58,7 @@ const SLEUTHS: Array<Sleuths> = [
   {
     'nonGoogleVoice': 'Samantha',
     'googleVoice': isLangJa() ? 'Google 日本語' : 'Google US English',
-    'emoji': '/img/emojis/ui/sleuth.svg',
+    'emoji': ROOT_PATH + 'img/emojis/ui/sleuth.svg',
   }
 ];
 
@@ -166,20 +168,20 @@ export class Game {
     this.currentLvlIndex = 0;
 
     this.audioSources = {
-      [AUDIO.GAME_LOOP]: new Audio('/audio/game-loop.mp4'),
-      [AUDIO.TIME_RUNNING_LOW]: new Audio('/audio/time-running-out.mp4'),
-      [AUDIO.COUNTDOWN]: new Audio('/audio/countdown.mp4'),
-      [AUDIO.FAIL]: new Audio('/audio/fail.mp4'),
-      [AUDIO.FOUND_IT]: new Audio('/audio/foundit.mp4'),
-      [AUDIO.WIN]: new Audio('/audio/win.mp4'),
-      [AUDIO.END]: new Audio('/audio/end-of-game.mp4'),
-      [AUDIO.TIMER_INCREASE]: new Audio('/audio/timer-increase.mp4')
+      [AUDIO.GAME_LOOP]: new Audio(ROOT_PATH + 'audio/game-loop.mp4'),
+      [AUDIO.TIME_RUNNING_LOW]: new Audio(ROOT_PATH + 'audio/time-running-out.mp4'),
+      [AUDIO.COUNTDOWN]: new Audio(ROOT_PATH + 'audio/countdown.mp4'),
+      [AUDIO.FAIL]: new Audio(ROOT_PATH + 'audio/fail.mp4'),
+      [AUDIO.FOUND_IT]: new Audio(ROOT_PATH + 'audio/foundit.mp4'),
+      [AUDIO.WIN]: new Audio(ROOT_PATH + 'audio/win.mp4'),
+      [AUDIO.END]: new Audio(ROOT_PATH + 'audio/end-of-game.mp4'),
+      [AUDIO.TIMER_INCREASE]: new Audio(ROOT_PATH + 'audio/timer-increase.mp4')
     };
 
     if (isIOS()) {
       this.audioSources[AUDIO.IOS_SPEECH_SPRITE] = isLangJa() ?
-          new Audio('/audio/ios-speech-sprite-ja.m4a') :
-          new Audio('/audio/ios-speech-sprite.m4a');
+        new Audio(ROOT_PATH + 'audio/ios-speech-sprite-ja.m4a') :
+        new Audio(ROOT_PATH + 'audio/ios-speech-sprite.m4a');
     }
 
     if (getQueryParam('demo') === 'true') {
