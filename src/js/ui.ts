@@ -362,7 +362,7 @@ export class Ui {
     if (this.closeAboutBtn) {
       this.closeAboutBtn.addEventListener('click', () => {
         this.hideView(VIEWS.ABOUT);
-        const path = isLangJa() ? '/ja/' : '/';
+        const path = isLangJa() ? '../ja/' : './';
         history.replaceState({page: 'home'}, 'Emoji Scavenger Hunt', path);
       });
     }

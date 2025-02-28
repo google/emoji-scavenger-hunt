@@ -19,12 +19,14 @@
 import * as tfc from '@tensorflow/tfjs-core';
 import {loadFrozenModel, FrozenModel} from '@tensorflow/tfjs-converter';
 import {SCAVENGER_CLASSES} from './scavenger_classes';
+import { isLangJa } from './utils';
 
 
 type TensorMap = {[name: string]: tfc.Tensor};
 
-const MODEL_FILE_URL = '/model/tensorflowjs_model.pb';
-const WEIGHT_MANIFEST_FILE_URL = '/model/weights_manifest.json';
+const ROOT_PATH = isLangJa() ? '../' : '';
+const MODEL_FILE_URL = ROOT_PATH + 'model/tensorflowjs_model.pb';
+const WEIGHT_MANIFEST_FILE_URL = ROOT_PATH + 'model/weights_manifest.json';
 const INPUT_NODE_NAME = 'input';
 const OUTPUT_NODE_NAME = 'final_result';
 const PREPROCESS_DIVISOR = tfc.scalar(255 / 2);
